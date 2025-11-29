@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Pengajuan - Dream Booking System</title>
+    <title>Form Booking Sarana - Al Fikri</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -105,10 +105,11 @@
             display: flex;
             justify-content: space-between;
             margin-bottom: 20px;
+            gap: 10px;
         }
         .signature-box {
             text-align: center;
-            width: 30%;
+            width: 32%;
         }
         .copyright {
             text-align: center;
@@ -150,6 +151,70 @@
             font-size: 11px;
             display: none;
         }
+
+        /* ✅ SUPER SIGNATURE STYLES */
+        .signature-canvas {
+            width: 100%;
+            height: 120px;
+            border: 2px dashed #1a73e8;
+            border-radius: 10px;
+            background: #f8f9fa;
+            margin: 10px 0;
+            cursor: crosshair;
+            touch-action: none;
+            transition: all 0.3s ease;
+        }
+
+        .signature-canvas.active {
+            border-color: #28a745;
+            background: #f8fff9;
+            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
+        }
+
+        .signature-feedback {
+            padding: 8px;
+            border-radius: 6px;
+            margin-top: 5px;
+            text-align: center;
+            font-size: 12px;
+            min-height: 20px;
+        }
+
+        .signature-header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .signature-header span {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a73e8;
+        }
+
+        .btn-clear {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            margin-top: 5px;
+            width: 100%;
+        }
+
+        .btn-clear:hover {
+            background: #c82333;
+        }
+
+        .wa-validation {
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+            font-weight: bold;
+        }
+        .valid { color: #28a745; }
+        .invalid { color: #dc3545; }
     </style>
 </head>
 <body>
@@ -170,6 +235,15 @@
         </div>
 
         <form id="bookingForm">
+            <!-- ✅ FIELD WHATSAPP PEMOHON -->
+            <div class="form-group">
+                <label for="whatsapp_pemohon">📱 Nomor WhatsApp Pemohon:</label>
+                <input type="tel" id="whatsapp_pemohon" name="whatsapp_pemohon" required 
+                       placeholder="Contoh: 081234567890" pattern="[0-9]{10,13}">
+                <small style="color: #666;">Untuk konfirmasi booking & komunikasi admin</small>
+                <div id="waValidation" class="wa-validation"></div>
+            </div>
+
             <div class="form-group">
                 <label for="kegiatan">Kegiatan / Acara:</label>
                 <input type="text" id="kegiatan" name="kegiatan" required placeholder="Contoh: Coat King, P. BL Level 6, Latihan Assembly">
@@ -293,60 +367,6 @@
                             <td><input type="number" class="equipment-qty" placeholder="0" min="0"></td>
                             <td><input type="text" class="equipment-desc" placeholder="Keterangan"></td>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>
-                                <select class="equipment-select" onchange="handleEquipmentSelect(this)">
-                                    <option value="">-- Pilih Perlengkapan --</option>
-                                    <option value="Speaker Portable Baretone">Speaker Portable Baretone</option>
-                                    <option value="Mic Hand Held">Mic Hand Held (genggam)</option>
-                                    <option value="Mic Wireless">Mic Wireless</option>
-                                    <option value="Projector">Projector</option>
-                                    <option value="Screen Projector">Screen Projector</option>
-                                    <option value="Mimbar">Mimbar</option>
-                                    <option value="Meja Panjang">Meja Panjang</option>
-                                    <option value="Sound System Portable">Sound System Portable</option>
-                                    <option value="Kabel Roll">Kabel Roll</option>
-                                    <option value="Stand Mic">Stand Mic</option>
-                                    <option value="Baterai Mic">Baterai Mic</option>
-                                    <option value="Laptop">Laptop</option>
-                                    <option value="Kabel HDMI">Kabel HDMI</option>
-                                    <option value="Kabel VGA">Kabel VGA</option>
-                                    <option value="Adapter">Adapter</option>
-                                    <option value="other">Lainnya (ketik manual)</option>
-                                </select>
-                                <input type="text" class="equipment-custom" placeholder="Ketik nama barang" style="display: none; margin-top: 5px;">
-                            </td>
-                            <td><input type="number" class="equipment-qty" placeholder="0" min="0"></td>
-                            <td><input type="text" class="equipment-desc" placeholder="Keterangan"></td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>
-                                <select class="equipment-select" onchange="handleEquipmentSelect(this)">
-                                    <option value="">-- Pilih Perlengkapan --</option>
-                                    <option value="Speaker Portable Baretone">Speaker Portable Baretone</option>
-                                    <option value="Mic Hand Held">Mic Hand Held (genggam)</option>
-                                    <option value="Mic Wireless">Mic Wireless</option>
-                                    <option value="Projector">Projector</option>
-                                    <option value="Screen Projector">Screen Projector</option>
-                                    <option value="Mimbar">Mimbar</option>
-                                    <option value="Meja Panjang">Meja Panjang</option>
-                                    <option value="Sound System Portable">Sound System Portable</option>
-                                    <option value="Kabel Roll">Kabel Roll</option>
-                                    <option value="Stand Mic">Stand Mic</option>
-                                    <option value="Baterai Mic">Baterai Mic</option>
-                                    <option value="Laptop">Laptop</option>
-                                    <option value="Kabel HDMI">Kabel HDMI</option>
-                                    <option value="Kabel VGA">Kabel VGA</option>
-                                    <option value="Adapter">Adapter</option>
-                                    <option value="other">Lainnya (ketik manual)</option>
-                                </select>
-                                <input type="text" class="equipment-custom" placeholder="Ketik nama barang" style="display: none; margin-top: 5px;">
-                            </td>
-                            <td><input type="number" class="equipment-qty" placeholder="0" min="0"></td>
-                            <td><input type="text" class="equipment-desc" placeholder="Keterangan"></td>
-                        </tr>
                     </tbody>
                 </table>
                 <button type="button" onclick="addEquipmentRow()" style="margin-top: 10px; padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">+ Tambah Barang</button>
@@ -357,22 +377,51 @@
                 <textarea id="catatan" name="catatan" rows="3" placeholder="Catatan khusus untuk admin..."></textarea>
             </div>
 
+            <!-- ✅ SIGNATURE DIGITAL SECTION -->
             <div class="signature-section">
+                <div class="signature-header">
+                    <span>✍️ Tanda Tangan Digital</span>
+                    <small>Gunakan mouse/touch untuk membuat tanda tangan</small>
+                </div>
+
                 <div class="signature-line">
+                    <!-- KEPALA SEKOLAH -->
                     <div class="signature-box">
-                        <div>Mengetahui</div>
-                        <div>Kepala Sekolah SIF Al Fikri</div>
-                        <div style="margin-top: 40px;">___________________</div>
+                        <div style="font-weight: bold; margin-bottom: 5px;">Mengetahui</div>
+                        <div style="font-size: 12px; color: #666;">Kepala Sekolah</div>
+                        <canvas id="kepsekSignature" class="signature-canvas"></canvas>
+                        <button type="button" class="btn-clear" onclick="clearSignature('kepsekSignature')">
+                            🧹 Hapus
+                        </button>
+                        <div id="kepsekValidation" class="signature-feedback">
+                            ✏️ Goreskan tanda tangan
+                        </div>
                     </div>
+
+                    <!-- KABID UMUM -->
                     <div class="signature-box">
-                        <div>Disetujui</div>
-                        <div>Kepala Bidang Umum SIF Al Fikri</div>
-                        <div style="margin-top: 40px;">___________________</div>
+                        <div style="font-weight: bold; margin-bottom: 5px;">Disetujui</div>
+                        <div style="font-size: 12px; color: #666;">Kepala Bidang Umum</div>
+                        <canvas id="kabidSignature" class="signature-canvas"></canvas>
+                        <button type="button" class="btn-clear" onclick="clearSignature('kabidSignature')">
+                            🧹 Hapus
+                        </button>
+                        <div id="kabidValidation" class="signature-feedback">
+                            ✏️ Goreskan tanda tangan
+                        </div>
                     </div>
+
+                    <!-- PENANGGUNG JAWAB -->
                     <div class="signature-box">
-                        <div>Penanggung Jawab</div>
-                        <div>Guru/Karyawan</div>
-                        <div style="margin-top: 40px;">___________________</div>
+                        <div style="font-weight: bold; margin-bottom: 5px;">Penanggung Jawab</div>
+                        <div style="font-size: 12px; color: #666;">Guru/Karyawan</div>
+                        <canvas id="penanggungJawabSignature" class="signature-canvas"></canvas>
+                        <button type="button" class="btn-clear" onclick="clearSignature('penanggungJawabSignature')">
+                            🧹 Hapus
+                        </button>
+                        <div id="penanggungJawabValidation" class="signature-feedback">
+                            ✏️ Goreskan tanda tangan
+                        </div>
                     </div>
                 </div>
             </div>
@@ -388,7 +437,7 @@
     </div>
 
     <script>
-        // Data sarana dengan informasi perlengkapan included
+        // Data sarana
         const facilities = [
             { id: 'aula_smp', name: 'Aula SMP', equipment: 'Include: Sound System lengkap, Projector' },
             { id: 'aula_sma', name: 'Aula SMA', equipment: 'Include: Sound System lengkap, Projector' },
@@ -401,16 +450,150 @@
             { id: 'serbaguna', name: 'Ruang Serbaguna', equipment: 'Include: Sound System' },
             { id: 'playground', name: 'Playground', equipment: '' },
             { id: 'taman', name: 'Taman Depan Mesjid', equipment: '' },
-            { id: 'mesjid', name: 'Mesjid', equipment: '' },
-            { id: 'perpustakaan_sd', name: 'Perpustakaan SD', equipment: '' },
-            { id: 'perpustakaan_smp', name: 'Perpustakaan SMP', equipment: '' },
-            { id: 'perpustakaan_sma', name: 'Perpustakaan SMA', equipment: '' },
-            { id: 'labkom_sd', name: 'Labkom SD', equipment: '' },
-            { id: 'labkom_smp', name: 'Labkom SMP', equipment: '' },
-            { id: 'labkom_sma', name: 'Labkom SMA', equipment: '' }
+            { id: 'mesjid', name: 'Mesjid', equipment: '' }
         ];
 
-        // Generate lokasi checklist dengan info perlengkapan
+        // ✅ ULTRA SIGNATURE SYSTEM
+        const signatureCanvases = {};
+
+        function initializeSignature(canvasId) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Set canvas size
+            canvas.width = canvas.offsetWidth;
+            canvas.height = canvas.offsetHeight;
+            
+            // Setup drawing
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 3;
+            ctx.lineCap = 'round';
+            ctx.lineJoin = 'round';
+            
+            let isDrawing = false;
+            let lastX = 0;
+            let lastY = 0;
+
+            function startDrawing(e) {
+                isDrawing = true;
+                const pos = getPosition(e);
+                [lastX, lastY] = [pos.x, pos.y];
+                canvas.classList.add('active');
+            }
+
+            function draw(e) {
+                if (!isDrawing) return;
+                
+                const pos = getPosition(e);
+                
+                ctx.beginPath();
+                ctx.moveTo(lastX, lastY);
+                ctx.lineTo(pos.x, pos.y);
+                ctx.stroke();
+                
+                [lastX, lastY] = [pos.x, pos.y];
+                validateSignature(canvasId);
+            }
+
+            function stopDrawing() {
+                isDrawing = false;
+                validateSignature(canvasId);
+            }
+
+            function getPosition(e) {
+                const rect = canvas.getBoundingClientRect();
+                const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+                const clientY = e.clientY || (e.touches && e.touches[0].clientY);
+                
+                return {
+                    x: clientX - rect.left,
+                    y: clientY - rect.top
+                };
+            }
+
+            // Mouse events
+            canvas.addEventListener('mousedown', startDrawing);
+            canvas.addEventListener('mousemove', draw);
+            canvas.addEventListener('mouseup', stopDrawing);
+            canvas.addEventListener('mouseout', stopDrawing);
+
+            // Touch events
+            canvas.addEventListener('touchstart', (e) => {
+                e.preventDefault();
+                startDrawing(e.touches[0]);
+            });
+            canvas.addEventListener('touchmove', (e) => {
+                e.preventDefault();
+                draw(e.touches[0]);
+            });
+            canvas.addEventListener('touchend', stopDrawing);
+
+            signatureCanvases[canvasId] = { ctx, canvas };
+        }
+
+        function clearSignature(canvasId) {
+            const { ctx, canvas } = signatureCanvases[canvasId] || {};
+            if (ctx) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                canvas.classList.remove('active');
+                validateSignature(canvasId);
+            }
+        }
+
+        function validateSignature(canvasId) {
+            const { ctx, canvas } = signatureCanvases[canvasId] || {};
+            const validationDiv = document.getElementById(canvasId + 'Validation');
+            
+            if (!ctx || !validationDiv) return false;
+
+            const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            let hasSignature = false;
+            
+            for (let i = 0; i < imageData.data.length; i += 4) {
+                if (imageData.data[i] !== 255 || imageData.data[i+1] !== 255 || imageData.data[i+2] !== 255) {
+                    hasSignature = true;
+                    break;
+                }
+            }
+
+            if (hasSignature) {
+                validationDiv.innerHTML = '✅ Tanda tangan berhasil!';
+                validationDiv.style.color = '#28a745';
+                return true;
+            } else {
+                validationDiv.innerHTML = '✏️ Goreskan tanda tangan';
+                validationDiv.style.color = '#666';
+                return false;
+            }
+        }
+
+        function validateAllSignatures() {
+            const signatures = ['kepsekSignature', 'kabidSignature', 'penanggungJawabSignature'];
+            return signatures.every(validateSignature);
+        }
+
+        // ✅ WHATSAPP VALIDATION
+        document.getElementById('whatsapp_pemohon').addEventListener('input', function(e) {
+            const value = e.target.value.replace(/\D/g, '');
+            const validationDiv = document.getElementById('waValidation');
+
+            if (value.length === 0) {
+                validationDiv.style.display = 'none';
+                this.style.borderColor = '#ddd';
+            } else if (value.length >= 10 && value.length <= 13) {
+                validationDiv.textContent = '✅ Nomor WA valid';
+                validationDiv.className = 'wa-validation valid';
+                validationDiv.style.display = 'block';
+                this.style.borderColor = '#28a745';
+            } else {
+                validationDiv.textContent = '❌ Nomor WA harus 10-13 digit';
+                validationDiv.className = 'wa-validation invalid';
+                validationDiv.style.display = 'block';
+                this.style.borderColor = '#dc3545';
+            }
+        });
+
+        // Existing functions
         function generateLocationChecklist() {
             const container = document.getElementById('lokasiContainer');
             facilities.forEach(facility => {
@@ -425,91 +608,17 @@
             });
         }
 
-        // Cek dan tampilkan alert untuk hari Jumat
         function checkFridayRestrictions() {
             const hari = document.getElementById('hari').value;
-            const waktuMulai = document.getElementById('waktu_mulai').value;
-            const waktuSelesai = document.getElementById('waktu_selesai').value;
             const alertDiv = document.getElementById('fridayAlert');
-            
-            if (hari === 'Jumat') {
-                alertDiv.style.display = 'block';
-                
-                // Non-aktifkan Aula SMP dan Serbaguna jika jam konflik
-                const jumatStart = '10:30';
-                const jumatEnd = '13:00';
-                const conflict = waktuMulai && waktuSelesai && 
-                               ((waktuMulai < jumatEnd && waktuSelesai > jumatStart));
-                
-                if (conflict) {
-                    document.getElementById('aula_smp').disabled = true;
-                    document.getElementById('serbaguna').disabled = true;
-                    
-                    // Uncheck jika sudah dicentang
-                    if (document.getElementById('aula_smp').checked) {
-                        document.getElementById('aula_smp').checked = false;
-                    }
-                    if (document.getElementById('serbaguna').checked) {
-                        document.getElementById('serbaguna').checked = false;
-                    }
-                } else {
-                    document.getElementById('aula_smp').disabled = false;
-                    document.getElementById('serbaguna').disabled = false;
-                }
-            } else {
-                alertDiv.style.display = 'none';
-                document.getElementById('aula_smp').disabled = false;
-                document.getElementById('serbaguna').disabled = false;
-            }
+            alertDiv.style.display = hari === 'Jumat' ? 'block' : 'none';
         }
 
-        // Validasi khusus hari Jumat untuk Aula SMP dan Serbaguna
-        function validateFridayRestrictions() {
-            const hari = document.getElementById('hari').value;
-            const waktuMulai = document.getElementById('waktu_mulai').value;
-            const waktuSelesai = document.getElementById('waktu_selesai').value;
-            
-            if (hari === 'Jumat') {
-                const selectedLocations = Array.from(document.querySelectorAll('input[name="lokasi"]:checked'))
-                    .map(cb => cb.value);
-                
-                // Cek jika memilih Aula SMP atau Serbaguna di jam 10:30-13:00
-                const restrictedLocations = ['Aula SMP', 'Ruang Serbaguna'];
-                const hasRestrictedLocation = selectedLocations.some(loc => 
-                    restrictedLocations.includes(loc)
-                );
-                
-                if (hasRestrictedLocation) {
-                    // Cek konflik waktu dengan jam shalat Jumat
-                    const jumatStart = '10:30';
-                    const jumatEnd = '13:00';
-                    
-                    const conflict = (waktuMulai < jumatEnd && waktuSelesai > jumatStart);
-                    
-                    if (conflict) {
-                        return false; // Ada konflik
-                    }
-                }
-            }
-            return true; // Tidak ada konflik
-        }
-
-        // Handle equipment selection
         function handleEquipmentSelect(select) {
-            const row = select.closest('td');
-            const customInput = row.querySelector('.equipment-custom');
-            
-            if (select.value === 'other') {
-                customInput.style.display = 'block';
-                customInput.required = true;
-            } else {
-                customInput.style.display = 'none';
-                customInput.required = false;
-                customInput.value = '';
-            }
+            const customInput = select.parentElement.querySelector('.equipment-custom');
+            customInput.style.display = select.value === 'other' ? 'block' : 'none';
         }
 
-        // Add new equipment row
         function addEquipmentRow() {
             const tbody = document.getElementById('equipmentBody');
             const newRow = document.createElement('tr');
@@ -545,112 +654,61 @@
             tbody.appendChild(newRow);
         }
 
-        // Validasi double booking sederhana
-        function checkDoubleBooking() {
-            const selectedLocations = Array.from(document.querySelectorAll('input[name="lokasi"]:checked'))
-                .map(cb => cb.value);
-            const tanggal = document.getElementById('tanggal').value;
-            const waktuMulai = document.getElementById('waktu_mulai').value;
-            const waktuSelesai = document.getElementById('waktu_selesai').value;
-
-            if (!tanggal || !waktuMulai || !waktuSelesai || selectedLocations.length === 0) {
-                return true; // Skip validation if not complete
-            }
-
-            // Simulasi cek double booking (di real implementation, ini akan cek database)
-            const existingBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            
-            const hasConflict = existingBookings.some(booking => {
-                return selectedLocations.includes(booking.lokasi) && 
-                       booking.tanggal === tanggal &&
-                       ((waktuMulai >= booking.waktuMulai && waktuMulai < booking.waktuSelesai) ||
-                        (waktuSelesai > booking.waktuMulai && waktuSelesai <= booking.waktuSelesai) ||
-                        (waktuMulai <= booking.waktuMulai && waktuSelesai >= booking.waktuSelesai));
-            });
-
-            return !hasConflict;
-        }
-
-        // Update current date
-        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('id-ID', {
-            day: 'numeric', month: 'long', year: 'numeric'
-        });
-
-        // Form submission dengan validasi
+        // Form submission
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Validasi jam booking
-            const waktuMulai = document.getElementById('waktu_mulai').value;
-            const waktuSelesai = document.getElementById('waktu_selesai').value;
-            
-            if (waktuMulai >= waktuSelesai) {
-                alert('❌ Waktu selesai harus setelah waktu mulai!');
+
+            // Validasi signature
+            if (!validateAllSignatures()) {
+                alert('❌ Semua tanda tangan digital wajib diisi!');
                 return;
             }
 
-            // Validasi double booking
-            if (!checkDoubleBooking()) {
-                alert('❌ KONFLIK BOOKING! Sarana yang dipilih sudah dibooking pada jam tersebut.\nSilahkan pilih jam atau sarana lain.');
+            // Validasi WhatsApp
+            const wa = document.getElementById('whatsapp_pemohon').value.replace(/\D/g, '');
+            if (wa.length < 10 || wa.length > 13) {
+                alert('❌ Nomor WhatsApp harus 10-13 digit!');
                 return;
             }
 
-            // Validasi khusus Jumat
-            if (!validateFridayRestrictions()) {
-                alert('❌ KONFLIK JUMAT! Aula SMP dan Serbaguna tidak tersedia jam 10.30-13.00 WIB untuk persiapan shalat Jumat.\nSilahkan pilih jam lain atau sarana lain.');
-                return;
-            }
-
-            // Simpan ke localStorage (simulasi database)
+            // Simpan data
             const formData = {
+                whatsapp_pemohon: document.getElementById('whatsapp_pemohon').value,
                 kegiatan: document.getElementById('kegiatan').value,
                 hari: document.getElementById('hari').value,
                 tanggal: document.getElementById('tanggal').value,
-                waktuMulai: waktuMulai,
-                waktuSelesai: waktuSelesai,
+                waktuMulai: document.getElementById('waktu_mulai').value,
+                waktuSelesai: document.getElementById('waktu_selesai').value,
                 lokasi: Array.from(document.querySelectorAll('input[name="lokasi"]:checked')).map(cb => cb.value),
-                lokasiLain: document.getElementById('lokasi_lain').value,
-                perlengkapan: collectEquipmentData(),
-                catatan: document.getElementById('catatan').value,
                 status: 'pending',
                 timestamp: new Date().toISOString()
             };
 
-            const existingBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
-            existingBookings.push(formData);
-            localStorage.setItem('bookings', JSON.stringify(existingBookings));
+            const existing = JSON.parse(localStorage.getItem('bookings') || '[]');
+            existing.push(formData);
+            localStorage.setItem('bookings', JSON.stringify(existing));
 
-            alert('📋 Form pengajuan berhasil dikirim!\n\nPermohonan Anda sedang diproses. Status dapat dicek di dashboard.');
-            window.location.href = 'index.html';
+            alert('🎉 Permohonan berhasil diajukan! Status dapat dicek di menu "Cek Status".');
+            this.reset();
+            // Reset signatures
+            ['kepsekSignature', 'kabidSignature', 'penanggungJawabSignature'].forEach(clearSignature);
         });
 
-        // Collect equipment data
-        function collectEquipmentData() {
-            const equipment = [];
-            document.querySelectorAll('#equipmentBody tr').forEach(row => {
-                const select = row.querySelector('.equipment-select');
-                const customInput = row.querySelector('.equipment-custom');
-                const qty = row.querySelector('.equipment-qty');
-                const desc = row.querySelector('.equipment-desc');
-                
-                const itemName = select.value === 'other' ? customInput.value : select.value;
-                if (itemName && qty.value > 0) {
-                    equipment.push({
-                        nama: itemName,
-                        jumlah: parseInt(qty.value),
-                        keterangan: desc.value
-                    });
-                }
-            });
-            return equipment;
-        }
-
         // Initialize
-        generateLocationChecklist();
-        
-        // Set min date to today
-        const today = new Date().toISOString().split('T')[0];
-        document.getElementById('tanggal').min = today;
+        document.addEventListener('DOMContentLoaded', function() {
+            generateLocationChecklist();
+            
+            // Initialize signatures
+            ['kepsekSignature', 'kabidSignature', 'penanggungJawabSignature'].forEach(initializeSignature);
+            
+            // Set min date
+            document.getElementById('tanggal').min = new Date().toISOString().split('T')[0];
+            
+            // Set current date
+            document.getElementById('currentDate').textContent = new Date().toLocaleDateString('id-ID', {
+                day: 'numeric', month: 'long', year: 'numeric'
+            });
+        });
     </script>
 </body>
 </html>
