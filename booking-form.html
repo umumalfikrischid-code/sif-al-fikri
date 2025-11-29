@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Pengajuan - Dream Booking System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f0f2f5; 
+            padding: 15px; 
+            line-height: 1.6;
+        }
+        .container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #1a73e8;
+        }
+        .bismillah {
+            color: #1a73e8;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .school-name {
+            color: #d23c3c;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .form-title {
+            color: #333;
+            font-size: 16px;
+            margin-top: 5px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .checkbox-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .equipment-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .equipment-table th,
+        .equipment-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .equipment-table th {
+            background: #f5f5f5;
+        }
+        .btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+        }
+        .btn:hover {
+            background: #1557b0;
+        }
+        .signature-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        .signature-line {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+        .signature-box {
+            text-align: center;
+            width: 30%;
+        }
+        .copyright {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+            font-size: 12px;
+        }
+        .info-box {
+            background: #e8f4fd;
+            border-left: 4px solid #1a73e8;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .warning {
+            background: #ffeaa7;
+            border-left: 4px solid #fdcb6e;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            font-size: 12px;
+        }
+        .facility-info {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            font-size: 11px;
+        }
+        .friday-alert {
+            background: #ff6b6b;
+            color: white;
+            border-left: 4px solid #d63031;
+            padding: 8px;
+            margin: 5px 0;
+            border-radius: 3px;
+            font-size: 11px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="bismillah">𝓑𝓲𝓼𝓶𝓲𝓵𝓵𝓪𝓱 𝓑𝓲 𝓘𝓳𝓷𝓲𝓵𝓵𝓪𝓱</div>
+            <div class="school-name">AL FIKRI</div>
+            <div class="form-title">FORM PENGAJUAN TEMPAT DAN PERLENGKAPAN BARANG</div>
+            <div>UNTUK KEGIATAN DI KALENDER AKADEMIK</div>
+        </div>
+
+        <div class="info-box">
+            <strong>📋 INFORMASI BOOKING:</strong><br>
+            • Jam operasional: <strong>07.30 - 16.00 WIB</strong><br>
+            • Hari aktif: <strong>Senin - Jumat</strong> (Sabtu conditional, Minggu libur)<br>
+            • <strong>JUMAT KHUSUS:</strong> Aula SMP & Serbaguna <strong>tidak available 10.30-13.00 WIB</strong><br>
+            • Sistem anti double booking aktif
+        </div>
+
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="kegiatan">Kegiatan / Acara:</label>
+                <input type="text" id="kegiatan" name="kegiatan" required placeholder="Contoh: Coat King, P. BL Level 6, Latihan Assembly">
+            </div>
+
+            <div class="form-group">
+                <label for="hari">Hari:</label>
+                <select id="hari" name="hari" required onchange="checkFridayRestrictions()">
+                    <option value="">Pilih Hari</option>
+                    <option value="Senin">Senin</option>
+                    <option value="Selasa">Selasa</option>
+                    <option value="Rabu">Rabu</option>
+                    <option value="Kamis">Kamis</option>
+                    <option value="Jumat">Jumat</option>
+                    <option value="Sabtu">Sabtu (Conditional)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="tanggal">Tanggal:</label>
+                <input type="date" id="tanggal" name="tanggal" required>
+            </div>
+
+            <div class="form-group">
+                <label for="waktu_mulai">Waktu Mulai:</label>
+                <select id="waktu_mulai" name="waktu_mulai" required onchange="checkFridayRestrictions()">
+                    <option value="">Pilih Waktu Mulai</option>
+                    <option value="07:30">07:30</option>
+                    <option value="08:00">08:00</option>
+                    <option value="08:30">08:30</option>
+                    <option value="09:00">09:00</option>
+                    <option value="09:30">09:30</option>
+                    <option value="10:00">10:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="11:00">11:00</option>
+                    <option value="11:30">11:30</option>
+                    <option value="12:00">12:00</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:00">13:00</option>
+                    <option value="13:30">13:30</option>
+                    <option value="14:00">14:00</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:00">15:00</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="waktu_selesai">Waktu Selesai:</label>
+                <select id="waktu_selesai" name="waktu_selesai" required onchange="checkFridayRestrictions()">
+                    <option value="">Pilih Waktu Selesai</option>
+                    <option value="08:00">08:00</option>
+                    <option value="08:30">08:30</option>
+                    <option value="09:00">09:00</option>
+                    <option value="09:30">09:30</option>
+                    <option value="10:00">10:00</option>
+                    <option value="10:30">10:30</option>
+                    <option value="11:00">11:00</option>
+                    <option value="11:30">11:30</option>
+                    <option value="12:00">12:00</option>
+                    <option value="12:30">12:30</option>
+                    <option value="13:00">13:00</option>
+                    <option value="13:30">13:30</option>
+                    <option value="14:00">14:00</option>
+                    <option value="14:30">14:30</option>
+                    <option value="15:00">15:00</option>
+                    <option value="15:30">15:30</option>
+                    <option value="16:00">16:00</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Lokasi: (Silahkan checklist atau isi sesuai kebutuhan)</label>
+                <div class="warning">
+                    <strong>⚠️ PERHATIAN:</strong> Sistem anti double booking aktif. Cek availability sebelum submit.
+                </div>
+                <div id="fridayAlert" class="friday-alert">
+                    <strong>🕌 INFORMASI JUMAT:</strong> Aula SMP & Serbaguna tidak tersedia jam 10.30-13.00 WIB untuk persiapan shalat Jumat
+                </div>
+                <div class="checkbox-grid" id="lokasiContainer">
+                    <!-- Lokasi akan di-generate oleh JavaScript -->
+                </div>
+                <input type="text" id="lokasi_lain" placeholder="Lain-lain (isi)" style="margin-top: 10px;">
+            </div>
+
+            <div class="form-group">
+                <label>Perlengkapan Barang: (silahkan pilih dari dropdown atau ketik manual)</label>
+                <table class="equipment-table">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Nama Barang</th>
+                            <th>Jumlah</th>
+                            <th>Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="equipmentBody">
+                        <tr>
+                            <td>1</td>
+                            <td>
+                                <select class="equipment-select" onchange="handleEquipmentSelect(this)">
+                                    <option value="">-- Pilih Perlengkapan --</option>
+                                    <option value="Speaker Portable Baretone">Speaker Portable Baretone</option>
+                                    <option value="Mic Hand Held">Mic Hand Held (genggam)</option>
+                                    <option value="Mic Wireless">Mic Wireless</option>
+                                    <option value="Projector">Projector</option>
+                                    <option value="Screen Projector">Screen Projector</option>
+                                    <option value="Mimbar">Mimbar</option>
+                                    <option value="Meja Panjang">Meja Panjang</option>
+                                    <option value="Sound System Portable">Sound System Portable</option>
+                                    <option value="Kabel Roll">Kabel Roll</option>
+                                    <option value="Stand Mic">Stand Mic</option>
+                                    <option value="Baterai Mic">Baterai Mic</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Kabel HDMI">Kabel HDMI</option>
+                                    <option value="Kabel VGA">Kabel VGA</option>
+                                    <option value="Adapter">Adapter</option>
+                                    <option value="other">Lainnya (ketik manual)</option>
+                                </select>
+                                <input type="text" class="equipment-custom" placeholder="Ketik nama barang" style="display: none; margin-top: 5px;">
+                            </td>
+                            <td><input type="number" class="equipment-qty" placeholder="0" min="0"></td>
+                            <td><input type="text" class="equipment-desc" placeholder="Keterangan"></td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>
+                                <select class="equipment-select" onchange="handleEquipmentSelect(this)">
+                                    <option value="">-- Pilih Perlengkapan --</option>
+                                    <option value="Speaker Portable Baretone">Speaker Portable Baretone</option>
+                                    <option value="Mic Hand Held">Mic Hand Held (genggam)</option>
+                                    <option value="Mic Wireless">Mic Wireless</option>
+                                    <option value="Projector">Projector</option>
+                                    <option value="Screen Projector">Screen Projector</option>
+                                    <option value="Mimbar">Mimbar</option>
+                                    <option value="Meja Panjang">Meja Panjang</option>
+                                    <option value="Sound System Portable">Sound System Portable</option>
+                                    <option value="Kabel Roll">Kabel Roll</option>
+                                    <option value="Stand Mic">Stand Mic</option>
+                                    <option value="Baterai Mic">Baterai Mic</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Kabel HDMI">Kabel HDMI</option>
+                                    <option value="Kabel VGA">Kabel VGA</option>
+                                    <option value="Adapter">Adapter</option>
+                                    <option value="other">Lainnya (ketik manual)</option>
+                                </select>
+                                <input type="text" class="equipment-custom" placeholder="Ketik nama barang" style="display: none; margin-top: 5px;">
+                            </td>
+                            <td><input type="number" class="equipment-qty" placeholder="0" min="0"></td>
+                            <td><input type="text" class="equipment-desc" placeholder="Keterangan"></td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>
+                                <select class="equipment-select" onchange="handleEquipmentSelect(this)">
+                                    <option value="">-- Pilih Perlengkapan --</option>
+                                    <option value="Speaker Portable Baretone">Speaker Portable Baretone</option>
+                                    <option value="Mic Hand Held">Mic Hand Held (genggam)</option>
+                                    <option value="Mic Wireless">Mic Wireless</option>
+                                    <option value="Projector">Projector</option>
+                                    <option value="Screen Projector">Screen Projector</option>
+                                    <option value="Mimbar">Mimbar</option>
+                                    <option value="Meja Panjang">Meja Panjang</option>
+                                    <option value="Sound System Portable">Sound System Portable</option>
+                                    <option value="Kabel Roll">Kabel Roll</option>
+                                    <option value="Stand Mic">Stand Mic</option>
+                                    <option value="Baterai Mic">Baterai Mic</option>
+                                    <option value="Laptop">Laptop</option>
+                                    <option value="Kabel HDMI">Kabel HDMI</option>
+                                    <option value="Kabel VGA">Kabel VGA</option>
+                                    <option value="Adapter">Adapter</option>
+                                    <option value="other">Lainnya (ketik manual)</option>
+                                </select>
+                                <input type="text" class="equipment-custom" placeholder="Ketik nama barang" style="display: none; margin-top: 5px;">
+                            </td>
+                            <td><input type="number" class="equipment-qty" placeholder="0" min="0"></td>
+                            <td><input type="text" class="equipment-desc" placeholder="Keterangan"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button" onclick="addEquipmentRow()" style="margin-top: 10px; padding: 5px 10px; background: #28a745; color: white; border: none; border-radius: 3px; cursor: pointer;">+ Tambah Barang</button>
+            </div>
+
+            <div class="form-group">
+                <label for="catatan">Catatan Tambahan:</label>
+                <textarea id="catatan" name="catatan" rows="3" placeholder="Catatan khusus untuk admin..."></textarea>
+            </div>
+
+            <div class="signature-section">
+                <div class="signature-line">
+                    <div class="signature-box">
+                        <div>Mengetahui</div>
+                        <div>Kepala Sekolah SIF Al Fikri</div>
+                        <div style="margin-top: 40px;">___________________</div>
+                    </div>
+                    <div class="signature-box">
+                        <div>Disetujui</div>
+                        <div>Kepala Bidang Umum SIF Al Fikri</div>
+                        <div style="margin-top: 40px;">___________________</div>
+                    </div>
+                    <div class="signature-box">
+                        <div>Penanggung Jawab</div>
+                        <div>Guru/Karyawan</div>
+                        <div style="margin-top: 40px;">___________________</div>
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">📄 AJUKAN PERMOHONAN</button>
+        </form>
+
+        <div class="copyright">
+            Hanung Budianto, S.E.<br>
+            <span id="currentDate"></span><br>
+            copyright © 2024 umum@alfikri.sch.id
+        </div>
+    </div>
+
+    <script>
+        // Data sarana dengan informasi perlengkapan included
+        const facilities = [
+            { id: 'aula_smp', name: 'Aula SMP', equipment: 'Include: Sound System lengkap, Projector' },
+            { id: 'aula_sma', name: 'Aula SMA', equipment: 'Include: Sound System lengkap, Projector' },
+            { id: 'saung_besar', name: 'Saung Besar', equipment: 'Include: Sound System' },
+            { id: 'saung_kecil', name: 'Saung Kecil', equipment: '' },
+            { id: 'basket', name: 'Lapangan Basket', equipment: '' },
+            { id: 'futsal', name: 'Lapangan Futsal Tanah', equipment: '' },
+            { id: 'volley', name: 'Lapangan Volley', equipment: '' },
+            { id: 'kantin', name: 'Kantin SMP', equipment: '' },
+            { id: 'serbaguna', name: 'Ruang Serbaguna', equipment: 'Include: Sound System' },
+            { id: 'playground', name: 'Playground', equipment: '' },
+            { id: 'taman', name: 'Taman Depan Mesjid', equipment: '' },
+            { id: 'mesjid', name: 'Mesjid', equipment: '' },
+            { id: 'perpustakaan_sd', name: 'Perpustakaan SD', equipment: '' },
+            { id: 'perpustakaan_smp', name: 'Perpustakaan SMP', equipment: '' },
+            { id: 'perpustakaan_sma', name: 'Perpustakaan SMA', equipment: '' },
+            { id: 'labkom_sd', name: 'Labkom SD', equipment: '' },
+            { id: 'labkom_smp', name: 'Labkom SMP', equipment: '' },
+            { id: 'labkom_sma', name: 'Labkom SMA', equipment: '' }
+        ];
+
+        // Generate lokasi checklist dengan info perlengkapan
+        function generateLocationChecklist() {
+            const container = document.getElementById('lokasiContainer');
+            facilities.forEach(facility => {
+                const div = document.createElement('div');
+                div.className = 'checkbox-item';
+                div.innerHTML = `
+                    <input type="checkbox" id="${facility.id}" name="lokasi" value="${facility.name}" onchange="checkFridayRestrictions()">
+                    <label for="${facility.id}">${facility.name}</label>
+                    ${facility.equipment ? `<div class="facility-info">${facility.equipment}</div>` : ''}
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        // Cek dan tampilkan alert untuk hari Jumat
+        function checkFridayRestrictions() {
+            const hari = document.getElementById('hari').value;
+            const waktuMulai = document.getElementById('waktu_mulai').value;
+            const waktuSelesai = document.getElementById('waktu_selesai').value;
+            const alertDiv = document.getElementById('fridayAlert');
+            
+            if (hari === 'Jumat') {
+                alertDiv.style.display = 'block';
+                
+                // Non-aktifkan Aula SMP dan Serbaguna jika jam konflik
+                const jumatStart = '10:30';
+                const jumatEnd = '13:00';
+                const conflict = waktuMulai && waktuSelesai && 
+                               ((waktuMulai < jumatEnd && waktuSelesai > jumatStart));
+                
+                if (conflict) {
+                    document.getElementById('aula_smp').disabled = true;
+                    document.getElementById('serbaguna').disabled = true;
+                    
+                    // Uncheck jika sudah dicentang
+                    if (document.getElementById('aula_smp').checked) {
+                        document.getElementById('aula_smp').checked = false;
+                    }
+                    if (document.getElementById('serbaguna').checked) {
+                        document.getElementById('serbaguna').checked = false;
+                    }
+                } else {
+                    document.getElementById('aula_smp').disabled = false;
+                    document.getElementById('serbaguna').disabled = false;
+                }
+            } else {
+                alertDiv.style.display = 'none';
+                document.getElementById('aula_smp').disabled = false;
+                document.getElementById('serbaguna').disabled = false;
+            }
+        }
+
+        // Validasi khusus hari Jumat untuk Aula SMP dan Serbaguna
+        function validateFridayRestrictions() {
+            const hari = document.getElementById('hari').value;
+            const waktuMulai = document.getElementById('waktu_mulai').value;
+            const waktuSelesai = document.getElementById('waktu_selesai').value;
+            
+            if (hari === 'Jumat') {
+                const selectedLocations = Array.from(document.querySelectorAll('input[name="lokasi"]:checked'))
+                    .map(cb => cb.value);
+                
+                // Cek jika memilih Aula SMP atau Serbaguna di jam 10:30-13:00
+                const restrictedLocations = ['Aula SMP', 'Ruang Serbaguna'];
+                const hasRestrictedLocation = selectedLocations.some(loc => 
+                    restrictedLocations.includes(loc)
+                );
+                
+                if (hasRestrictedLocation) {
+                    // Cek konflik waktu dengan jam shalat Jumat
+                    const jumatStart = '10:30';
+                    const jumatEnd = '13:00';
+                    
+                    const conflict = (waktuMulai < jumatEnd && waktuSelesai > jumatStart);
+                    
+                    if (conflict) {
+                        return false; // Ada konflik
+                    }
+                }
+            }
+            return true; // Tidak ada konflik
+        }
+
+        // Handle equipment selection
+        function handleEquipmentSelect(select) {
+            const row = select.closest('td');
+            const customInput = row.querySelector('.equipment-custom');
+            
+            if (select.value === 'other') {
+                customInput.style.display = 'block';
+                customInput.required = true;
+            } else {
+                customInput.style.display = 'none';
+                customInput.required = false;
+                customInput.value = '';
+            }
+        }
+
+        // Add new equipment row
+        function addEquipmentRow() {
+            const tbody = document.getElementById('equipmentBody');
+            const newRow = document.createElement('tr');
+            const rowNumber = tbody.children.length + 1;
+            
+            newRow.innerHTML = `
+                <td>${rowNumber}</td>
+                <td>
+                    <select class="equipment-select" onchange="handleEquipmentSelect(this)">
+                        <option value="">-- Pilih Perlengkapan --</option>
+                        <option value="Speaker Portable Baretone">Speaker Portable Baretone</option>
+                        <option value="Mic Hand Held">Mic Hand Held (genggam)</option>
+                        <option value="Mic Wireless">Mic Wireless</option>
+                        <option value="Projector">Projector</option>
+                        <option value="Screen Projector">Screen Projector</option>
+                        <option value="Mimbar">Mimbar</option>
+                        <option value="Meja Panjang">Meja Panjang</option>
+                        <option value="Sound System Portable">Sound System Portable</option>
+                        <option value="Kabel Roll">Kabel Roll</option>
+                        <option value="Stand Mic">Stand Mic</option>
+                        <option value="Baterai Mic">Baterai Mic</option>
+                        <option value="Laptop">Laptop</option>
+                        <option value="Kabel HDMI">Kabel HDMI</option>
+                        <option value="Kabel VGA">Kabel VGA</option>
+                        <option value="Adapter">Adapter</option>
+                        <option value="other">Lainnya (ketik manual)</option>
+                    </select>
+                    <input type="text" class="equipment-custom" placeholder="Ketik nama barang" style="display: none; margin-top: 5px;">
+                </td>
+                <td><input type="number" class="equipment-qty" placeholder="0" min="0"></td>
+                <td><input type="text" class="equipment-desc" placeholder="Keterangan"></td>
+            `;
+            tbody.appendChild(newRow);
+        }
+
+        // Validasi double booking sederhana
+        function checkDoubleBooking() {
+            const selectedLocations = Array.from(document.querySelectorAll('input[name="lokasi"]:checked'))
+                .map(cb => cb.value);
+            const tanggal = document.getElementById('tanggal').value;
+            const waktuMulai = document.getElementById('waktu_mulai').value;
+            const waktuSelesai = document.getElementById('waktu_selesai').value;
+
+            if (!tanggal || !waktuMulai || !waktuSelesai || selectedLocations.length === 0) {
+                return true; // Skip validation if not complete
+            }
+
+            // Simulasi cek double booking (di real implementation, ini akan cek database)
+            const existingBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            
+            const hasConflict = existingBookings.some(booking => {
+                return selectedLocations.includes(booking.lokasi) && 
+                       booking.tanggal === tanggal &&
+                       ((waktuMulai >= booking.waktuMulai && waktuMulai < booking.waktuSelesai) ||
+                        (waktuSelesai > booking.waktuMulai && waktuSelesai <= booking.waktuSelesai) ||
+                        (waktuMulai <= booking.waktuMulai && waktuSelesai >= booking.waktuSelesai));
+            });
+
+            return !hasConflict;
+        }
+
+        // Update current date
+        document.getElementById('currentDate').textContent = new Date().toLocaleDateString('id-ID', {
+            day: 'numeric', month: 'long', year: 'numeric'
+        });
+
+        // Form submission dengan validasi
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validasi jam booking
+            const waktuMulai = document.getElementById('waktu_mulai').value;
+            const waktuSelesai = document.getElementById('waktu_selesai').value;
+            
+            if (waktuMulai >= waktuSelesai) {
+                alert('❌ Waktu selesai harus setelah waktu mulai!');
+                return;
+            }
+
+            // Validasi double booking
+            if (!checkDoubleBooking()) {
+                alert('❌ KONFLIK BOOKING! Sarana yang dipilih sudah dibooking pada jam tersebut.\nSilahkan pilih jam atau sarana lain.');
+                return;
+            }
+
+            // Validasi khusus Jumat
+            if (!validateFridayRestrictions()) {
+                alert('❌ KONFLIK JUMAT! Aula SMP dan Serbaguna tidak tersedia jam 10.30-13.00 WIB untuk persiapan shalat Jumat.\nSilahkan pilih jam lain atau sarana lain.');
+                return;
+            }
+
+            // Simpan ke localStorage (simulasi database)
+            const formData = {
+                kegiatan: document.getElementById('kegiatan').value,
+                hari: document.getElementById('hari').value,
+                tanggal: document.getElementById('tanggal').value,
+                waktuMulai: waktuMulai,
+                waktuSelesai: waktuSelesai,
+                lokasi: Array.from(document.querySelectorAll('input[name="lokasi"]:checked')).map(cb => cb.value),
+                lokasiLain: document.getElementById('lokasi_lain').value,
+                perlengkapan: collectEquipmentData(),
+                catatan: document.getElementById('catatan').value,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            const existingBookings = JSON.parse(localStorage.getItem('bookings') || '[]');
+            existingBookings.push(formData);
+            localStorage.setItem('bookings', JSON.stringify(existingBookings));
+
+            alert('📋 Form pengajuan berhasil dikirim!\n\nPermohonan Anda sedang diproses. Status dapat dicek di dashboard.');
+            window.location.href = 'index.html';
+        });
+
+        // Collect equipment data
+        function collectEquipmentData() {
+            const equipment = [];
+            document.querySelectorAll('#equipmentBody tr').forEach(row => {
+                const select = row.querySelector('.equipment-select');
+                const customInput = row.querySelector('.equipment-custom');
+                const qty = row.querySelector('.equipment-qty');
+                const desc = row.querySelector('.equipment-desc');
+                
+                const itemName = select.value === 'other' ? customInput.value : select.value;
+                if (itemName && qty.value > 0) {
+                    equipment.push({
+                        nama: itemName,
+                        jumlah: parseInt(qty.value),
+                        keterangan: desc.value
+                    });
+                }
+            });
+            return equipment;
+        }
+
+        // Initialize
+        generateLocationChecklist();
+        
+        // Set min date to today
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tanggal').min = today;
+    </script>
+</body>
+</html>
