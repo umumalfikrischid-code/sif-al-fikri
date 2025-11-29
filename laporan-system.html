@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Laporan - Dream Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background: #f8f9fa; 
+            padding: 15px; 
+            line-height: 1.6;
+            color: #333;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 20px; 
+            border-radius: 12px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #1a73e8;
+        }
+        .bismillah {
+            color: #1a73e8;
+            font-size: 20px;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .school-name {
+            color: #d23c3c;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .form-title {
+            color: #555;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e5e9;
+            border-radius: 8px;
+            font-size: 14px;
+            transition: border 0.3s;
+        }
+        input:focus, select:focus, textarea:focus {
+            border-color: #1a73e8;
+            outline: none;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .signature-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+        .signature-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: center;
+            vertical-align: top;
+        }
+        .signature-table th {
+            background: #f8f9fa;
+            border: 1px solid #ddd;
+            padding: 10px;
+            font-weight: 600;
+        }
+        .btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 14px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-top: 20px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #1557b0;
+        }
+        .btn-secondary {
+            background: #28a745;
+            margin-top: 10px;
+        }
+        .section-title {
+            background: #e8f4fd;
+            padding: 10px;
+            border-radius: 6px;
+            margin: 20px 0 15px 0;
+            border-left: 4px solid #1a73e8;
+            font-weight: 600;
+            color: #1557b0;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        .status-pending { background: #ffeaa7; color: #e17055; }
+        .status-process { background: #74b9ff; color: white; }
+        .status-completed { background: #00b894; color: white; }
+        .nav-tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e1e5e9;
+        }
+        .nav-tab {
+            padding: 12px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            font-weight: 600;
+            color: #666;
+        }
+        .nav-tab.active {
+            color: #1a73e8;
+            border-bottom-color: #1a73e8;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="bismillah">𝓑𝓲𝓼𝓶𝓲𝓵𝓵𝓪𝓱 𝓑𝓲 𝓘𝓳𝓷𝓲𝓵𝓵𝓪𝓱</div>
+            <div class="school-name">AL FIKRI</div>
+            <div class="form-title">SISTEM LAPORAN KERUSAKAN / KEHILANGAN / KEJADIAN</div>
+        </div>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" onclick="showTab('laporan')">📋 Buat Laporan</div>
+            <div class="nav-tab" onclick="showTab('inventory')">📦 Inventory</div>
+            <div class="nav-tab" onclick="showTab('riwayat')">📊 Riwayat</div>
+        </div>
+
+        <!-- TAB 1: FORM LAPORAN -->
+        <div id="laporan" class="tab-content active">
+            <form id="laporanForm">
+                <div class="form-group">
+                    <label for="jenis_laporan">Jenis Laporan:</label>
+                    <select id="jenis_laporan" name="jenis_laporan" required>
+                        <option value="">Pilih Jenis Laporan</option>
+                        <option value="kerusakan">Kerusakan</option>
+                        <option value="kehilangan">Kehilangan</option>
+                        <option value="kejadian">Kejadian</option>
+                    </select>
+                </div>
+
+                <div class="section-title">Data Pelapor</div>
+                <div class="form-row">
+                    <div>
+                        <label for="nama_pelapor">Nama Pelapor:</label>
+                        <input type="text" id="nama_pelapor" name="nama_pelapor" required placeholder="Nama lengkap">
+                    </div>
+                    <div>
+                        <label for="tanggal_lapor">Tanggal/Jam:</label>
+                        <input type="datetime-local" id="tanggal_lapor" name="tanggal_lapor" required>
+                    </div>
+                </div>
+
+                <div class="section-title">Lokasi Kejadian</div>
+                <div class="form-group">
+                    <label for="lokasi">Lokasi Yang Dilaporkan:</label>
+                    <select id="lokasi" name="lokasi" required>
+                        <option value="">Pilih Lokasi</option>
+                        <option value="aula_smp">Aula SMP</option>
+                        <option value="aula_sma">Aula SMA</option>
+                        <option value="saung_besar">Saung Besar</option>
+                        <option value="labkom">Lab Komputer</option>
+                        <option value="perpustakaan">Perpustakaan</option>
+                        <option value="lapangan">Lapangan</option>
+                        <option value="kantin">Kantin</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                    <input type="text" id="lokasi_lain" name="lokasi_lain" placeholder="Tulis lokasi lainnya" style="margin-top: 10px; display: none;">
+                </div>
+
+                <div class="section-title">Detail Laporan</div>
+                <div class="form-group">
+                    <label for="detail_laporan">Garis Besar Laporan:</label>
+                    <textarea id="detail_laporan" name="detail_laporan" rows="4" required placeholder="Jelaskan secara detail apa yang terjadi..."></textarea>
+                </div>
+
+                <div class="section-title">Penanganan</div>
+                <table class="signature-table">
+                    <tr>
+                        <th>Ditangani Oleh</th>
+                        <th>Diketahui Oleh</th>
+                        <th>Kabid Umum</th>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="text" name="penanggung_jawab" placeholder="Nama">
+                            <br><small style="color: #666;">Tgl: <span id="tgl_penanganan"></span></small>
+                        </td>
+                        <td>
+                            <input type="text" name="diketahui_oleh" placeholder="Nama">
+                            <br><small style="color: #666;">Tgl: <span id="tgl_diketahui"></span></small>
+                        </td>
+                        <td>
+                            <input type="text" name="kabid_umum" placeholder="Nama">
+                            <br><small style="color: #666;">Tgl: <span id="tgl_kabid"></span></small>
+                        </td>
+                    </tr>
+                </table>
+
+                <button type="submit" class="btn">📄 KIRIM LAPORAN</button>
+            </form>
+        </div>
+
+        <!-- TAB 2: INVENTORY -->
+        <div id="inventory" class="tab-content">
+            <div class="section-title">Manajemen Inventory</div>
+            <div style="text-align: center; margin: 30px 0;">
+                <p>🚧 <strong>Sistem Inventory dalam Pengembangan</strong></p>
+                <p>Fitur lengkap akan segera hadir dengan:</p>
+                <ul style="text-align: left; margin: 15px 0;">
+                    <li>QR Code Generator</li>
+                    <li>Stock Management</li>
+                    <li>Tracking Barang</li>
+                    <li>Reporting System</li>
+                </ul>
+                <button class="btn btn-secondary" onclick="showTab('laporan')">📋 Buat Laporan Dulu</button>
+            </div>
+        </div>
+
+        <!-- TAB 3: RIWAYAT -->
+        <div id="riwayat" class="tab-content">
+            <div class="section-title">Riwayat Laporan</div>
+            <div id="riwayatList" style="text-align: center; padding: 20px;">
+                <p>Belum ada laporan yang dibuat</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tab Navigation
+        function showTab(tabName) {
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            
+            document.querySelector(`.nav-tab[onclick="showTab('${tabName}')"]`).classList.add('active');
+            document.getElementById(tabName).classList.add('active');
+        }
+
+        // Lokasi Lain Handler
+        document.getElementById('lokasi').addEventListener('change', function() {
+            const lokasiLain = document.getElementById('lokasi_lain');
+            lokasiLain.style.display = this.value === 'lainnya' ? 'block' : 'none';
+            if (this.value !== 'lainnya') lokasiLain.value = '';
+        });
+
+        // Set Current Dates
+        const now = new Date();
+        document.getElementById('tanggal_lapor').value = now.toISOString().slice(0, 16);
+        document.getElementById('tgl_penanganan').textContent = new Date().toLocaleDateString('id-ID');
+        document.getElementById('tgl_diketahui').textContent = new Date().toLocaleDateString('id-ID');
+        document.getElementById('tgl_kabid').textContent = new Date().toLocaleDateString('id-ID');
+
+        // Form Submission
+        document.getElementById('laporanForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                jenis: document.getElementById('jenis_laporan').value,
+                pelapor: document.getElementById('nama_pelapor').value,
+                tanggal: document.getElementById('tanggal_lapor').value,
+                lokasi: document.getElementById('lokasi').value === 'lainnya' ? 
+                       document.getElementById('lokasi_lain').value : 
+                       document.getElementById('lokasi').options[document.getElementById('lokasi').selectedIndex].text,
+                detail: document.getElementById('detail_laporan').value,
+                penanggungJawab: document.querySelector('input[name="penanggung_jawab"]').value,
+                diketahuiOleh: document.querySelector('input[name="diketahui_oleh"]').value,
+                kabidUmum: document.querySelector('input[name="kabid_umum"]').value,
+                status: 'pending',
+                timestamp: new Date().toISOString()
+            };
+
+            // Save to localStorage
+            const existingLaporan = JSON.parse(localStorage.getItem('laporan') || '[]');
+            existingLaporan.push(formData);
+            localStorage.setItem('laporan', JSON.stringify(existingLaporan));
+
+            alert('✅ Laporan berhasil dikirim!\n\nLaporan Anda telah direkam dan akan segera ditindaklanjuti.');
+            this.reset();
+            document.getElementById('tanggal_lapor').value = new Date().toISOString().slice(0, 16);
+            showTab('riwayat');
+            loadRiwayat();
+        });
+
+        // Load Riwayat
+        function loadRiwayat() {
+            const riwayatList = document.getElementById('riwayatList');
+            const laporan = JSON.parse(localStorage.getItem('laporan') || '[]');
+            
+            if (laporan.length === 0) {
+                riwayatList.innerHTML = '<p>Belum ada laporan yang dibuat</p>';
+                return;
+            }
+
+            riwayatList.innerHTML = laporan.map((item, index) => `
+                <div style="background: #f8f9fa; padding: 15px; margin: 10px 0; border-radius: 8px; border-left: 4px solid #1a73e8;">
+                    <div style="display: flex; justify-content: between; align-items: center;">
+                        <strong>${item.jenis.toUpperCase()}</strong>
+                        <span class="status-badge status-${item.status}">${item.status.toUpperCase()}</span>
+                    </div>
+                    <div style="margin-top: 8px;">
+                        <small><strong>Pelapor:</strong> ${item.pelapor}</small><br>
+                        <small><strong>Lokasi:</strong> ${item.lokasi}</small><br>
+                        <small><strong>Waktu:</strong> ${new Date(item.tanggal).toLocaleString('id-ID')}</small>
+                    </div>
+                    <div style="margin-top: 10px; font-size: 14px;">
+                        ${item.detail}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Initial load
+        loadRiwayat();
+    </script>
+</body>
+</html>
