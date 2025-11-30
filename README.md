@@ -7,7 +7,7 @@ Sistem manajemen sekolah berbasis web untuk SD/SMP/SMA Al Fikri
 - **🚨 Laporan K3** - Form pelaporan Kerusakan, Kehilangan, Kejadian
 
 ## 🔗 Live Demo
-[https://umumalfikrischid-code.github.io/dream-booking-sistem/](https://umumalfikrischid-code.github.io/dream-booking-sistem/)
+[https://umumalfikrischid-code.github.io/dream-booking-system/](https://umumalfikrischid-code.github.io/dream-booking-system/)
 
 ## 🚀 Fitur Utama
 ### 📅 Booking Sarana
