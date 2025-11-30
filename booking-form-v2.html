@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Booking - SIF Al Fikri</title>
+    <style>
+        /* STYLING LENGKAP UNTUK FORM BOOKING */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .header { text-align: center; margin-bottom: 30px; }
+        .header h1 { color: #2c3e50; margin-bottom: 10px; }
+        .header p { color: #7f8c8d; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50; }
+        input, select, textarea { width: 100%; padding: 12px 15px; border: 2px solid #e0e0e0; border-radius: 8px; font-size: 14px; transition: all 0.3s ease; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #3498db; box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1); }
+        .btn { background: linear-gradient(135deg, #27ae60 0%, #2ecc71 100%); color: white; padding: 15px 30px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; }
+        .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 20px rgba(39, 174, 96, 0.3); }
+        .user-info { background: #e8f4fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; border-left: 4px solid #3498db; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📅 Form Booking Sarana</h1>
+            <p>SIF Al Fikri - Sistem Booking Terpadu</p>
+        </div>
+
+        <div class="user-info" id="userInfo">
+            <p><strong>User:</strong> <span id="currentUserName">Loading...</span></p>
+            <p><strong>Peran:</strong> <span id="currentUserRole">Loading...</span></p>
+        </div>
+
+        <form id="bookingForm">
+            <div class="form-group">
+                <label for="namaKegiatan">Nama Kegiatan</label>
+                <input type="text" id="namaKegiatan" placeholder="Contoh: Seminar Parenting, Workshop Guru" required>
+            </div>
+
+            <div class="form-group">
+                <label for="tanggal">Tanggal Kegiatan</label>
+                <input type="date" id="tanggal" required>
+            </div>
+
+            <div class="form-group">
+                <label for="waktuMulai">Waktu Mulai</label>
+                <input type="time" id="waktuMulai" required>
+            </div>
+
+            <div class="form-group">
+                <label for="waktuSelesai">Waktu Selesai</label>
+                <input type="time" id="waktuSelesai" required>
+            </div>
+
+            <div class="form-group">
+                <label for="sarana">Sarana yang Dipesan</label>
+                <select id="sarana" required>
+                    <option value="">-- Pilih Sarana --</option>
+                    <option value="aula">🏛️ Aula Utama</option>
+                    <option value="lab-komputer">💻 Lab Komputer</option>
+                    <option value="perpustakaan">📚 Perpustakaan</option>
+                    <option value="lapangan">⚽ Lapangan Olahraga</option>
+                    <option value="ruang-kelas">🏫 Ruang Kelas</option>
+                    <option value="mushola">🕌 Mushola</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="peserta">Jumlah Peserta</label>
+                <input type="number" id="peserta" placeholder="0" min="1" required>
+            </div>
+
+            <div class="form-group">
+                <label for="keterangan">Keterangan Tambahan</label>
+                <textarea id="keterangan" rows="3" placeholder="Tambahkan keterangan jika diperlukan..."></textarea>
+            </div>
+
+            <button type="submit" class="btn">🚀 Ajukan Booking</button>
+        </form>
+    </div>
+
+    <script>
+        // Cek login
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        if (!currentUser || currentUser.role !== 'pemohon') {
+            alert('❌ Silakan login sebagai Pemohon terlebih dahulu!');
+            window.location.href = 'login.html';
+        }
+
+        // Tampilkan info user
+        document.getElementById('currentUserName').textContent = currentUser.username;
+        document.getElementById('currentUserRole').textContent = getRoleName(currentUser.role);
+
+        function getRoleName(role) {
+            const roleNames = {
+                'pemohon': 'Pemohon', 'kepsek-sd': 'Kepala Sekolah SD', 'kepsek-smp': 'Kepala Sekolah SMP', 'kepsek-sma': 'Kepala Sekolah SMA',
+                'koordinator': 'Koordinator Umum (Erwinsyah)', 'kabid': 'Kabid Umum (Hanung Budianto, S.E.)'
+            };
+            return roleNames[role] || role;
+        }
+
+        // Handle form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: 'booking-' + Date.now(),
+                namaKegiatan: document.getElementById('namaKegiatan').value,
+                tanggal: document.getElementById('tanggal').value,
+                waktuMulai: document.getElementById('waktuMulai').value,
+                waktuSelesai: document.getElementById('waktuSelesai').value,
+                sarana: document.getElementById('sarana').value,
+                peserta: document.getElementById('peserta').value,
+                keterangan: document.getElementById('keterangan').value,
+                pemohon: currentUser.username,
+                status: 'pending',
+                createdAt: new Date().toISOString()
+            };
+
+            // Simpan ke localStorage
+            let bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            bookings.push(formData);
+            localStorage.setItem('bookings', JSON.stringify(bookings));
+
+            alert('✅ Booking berhasil diajukan!\nMenunggu approval dari Kepala Sekolah.');
+            window.location.href = 'index.html';
+        });
+
+        // Set tanggal minimal ke hari ini
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('tanggal').min = today;
+    </script>
+</body>
+</html>
