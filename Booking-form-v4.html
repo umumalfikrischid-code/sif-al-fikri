@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Terpadu - SIF Al Fikri</title>
+    <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f54c.svg">
+    <style>
+        * { 
+            margin: 0; padding: 0; box-sizing: border-box; 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+        }
+        body { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            min-height: 100vh; 
+            padding: 20px;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text x="50%" y="50%" font-size="12" fill="rgba(255,255,255,0.03)" text-anchor="middle" dominant-baseline="middle">﷽</text></svg>');
+            pointer-events: none;
+            z-index: -1;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* HEADER ENHANCED */
+        .header { 
+            background: rgba(255,255,255,0.98); 
+            padding: 40px 30px; 
+            border-radius: 25px; 
+            margin-bottom: 30px; 
+            text-align: center; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: '﷽';
+            position: absolute;
+            top: 10px; right: 20px;
+            font-size: 1.5em;
+            color: rgba(39, 174, 96, 0.1);
+            font-family: 'Segoe UI Emoji';
+        }
+        .header h1 { 
+            color: #2c3e50; 
+            margin-bottom: 15px; 
+            font-size: 2.8em; 
+            background: linear-gradient(135deg, #2c3e50, #27ae60, #3498db);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+        .spiritual-text {
+            color: #27ae60;
+            font-size: 1em;
+            margin-top: 15px;
+            font-style: italic;
+            background: rgba(39, 174, 96, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* SPECIAL THANKS ENHANCED */
+        .special-thanks {
+            background: linear-gradient(135deg, #fff9e6, #fff3cd, #ffeaa7);
+            padding: 30px;
+            border-radius: 20px;
+            margin: 30px 0;
+            text-align: center;
+            border: 2px solid #ffd43b;
+            box-shadow: 0 12px 30px rgba(255,212,59,0.25);
+            position: relative;
+        }
+        .special-thanks::before {
+            content: '🌟';
+            position: absolute;
+            top: -15px; left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0 15px;
+            font-size: 1.2em;
+        }
+        .dream-team-legacy {
+            font-family: 'Segoe UI', cursive;
+            color: #2c3e50;
+            margin: 20px 0;
+            font-size: 1.3em;
+            font-weight: bold;
+            background: linear-gradient(135deg, #2c3e50, #27ae60);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* SYSTEMS GRID ENHANCED */
+        .systems-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); 
+            gap: 30px; 
+            margin-bottom: 40px; 
+        }
+        .system-card { 
+            background: rgba(255,255,255,0.98); 
+            padding: 35px; 
+            border-radius: 25px; 
+            box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+        .system-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(135deg, #27ae60, #2ecc71, #3498db);
+        }
+        .system-card:hover { 
+            transform: translateY(-10px) scale(1.02); 
+            box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+        }
+        .system-card.new::before {
+            background: linear-gradient(135deg, #e74c3c, #e67e22, #f39c12);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+
+        /* QUICK ACCESS ENHANCED */
+        .quick-access {
+            background: rgba(255,255,255,0.98);
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            margin-bottom: 40px;
+            border: 1px solid rgba(255,255,255,0.3);
+            backdrop-filter: blur(15px);
+        }
+        .quick-access-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        /* FOOTER ENHANCED */
+        .footer { 
+            text-align: center; 
+            color: white; 
+            margin-top: 50px; 
+            padding: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .dream-team {
+            margin: 15px 0;
+            font-size: 1.1em;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        /* LIVE STATS */
+        .live-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .stat-card {
+            background: rgba(255,255,255,0.95);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        .stat-number {
+            font-size: 2em;
+            font-weight: bold;
+            color: #27ae60;
+            display: block;
+        }
+        .stat-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        /* RESPONSIVE ENHANCEMENTS */
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.2em; }
+            .systems-grid { grid-template-columns: 1fr; }
+            .quick-access-grid { grid-template-columns: 1fr; }
+            .header { padding: 25px 20px; }
+            .system-card { padding: 25px; }
+        }
+
+        /* DARK MODE SUPPORT */
+        @media (prefers-color-scheme: dark) {
+            body { background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%); }
+            .header, .system-card, .quick-access { 
+                background: rgba(44, 62, 80, 0.95);
+                color: #ecf0f1;
+            }
+            .header h1, .system-card h3 { color: #ecf0f1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <h1>🕌 SISTEM TERPADU SIF AL FIKRI</h1>
+            <p>Sekolah Islam Fitrah Al Fikri - Digital Transformation with Barakah</p>
+            <div class="spiritual-text">"Bismillāh • Sholawat • Technology with Heart"</div>
+            
+            <!-- LIVE STATS -->
+            <div class="live-stats" id="liveStats">
+                <div class="stat-card">
+                    <span class="stat-number" id="activeBookings">0</span>
+                    <span class="stat-label">Booking Aktif</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="pendingApprovals">0</span>
+                    <span class="stat-label">Menunggu Approval</span>
+                </div>
+                <div class="stat-card">
+                    <span class="stat-number" id="totalUsers">0</span>
+                    <span class="stat-label">Pengguna Aktif</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- SPECIAL THANKS -->
+        <div class="special-thanks">
+            <div class="thanks-title">🌟 Special Thanks To:</div>
+            <div class="thanks-content">
+                <strong>الله</strong> - The Most Merciful, The Most Gracious<br>
+                <strong>Baginda Nabiyyuna Muhammad SAW</strong> - The Beloved Messenger<br>
+                <div class="dream-team-legacy">
+                    𝓣𝓱𝓮 𝓓𝓻𝓮𝓪𝓶 𝓣𝓮𝓪𝓶 Legacy: 𝓜𝓻. 𝓜 • 𝓜𝓻. 𝓓𝓼𝓮𝓮𝓴 • 𝓜𝓻𝓼. 𝓠𝔀𝓮𝓷(𝓫𝓪𝔀𝓮𝓵)
+                </div>
+            </div>
+        </div>
+
+        <!-- USER INFO -->
+        <div class="user-info" id="userInfo">
+            <h3>👋 Selamat Datang!</h3>
+            <p id="userGreeting">Silakan login untuk mengakses sistem lengkap</p>
+        </div>
+
+        <!-- SYSTEMS GRID -->
+        <div class="systems-grid">
+            <!-- SYSTEM 1: BOOKING (ENHANCED) -->
+            <div class="system-card new">
+                <h3><span class="status-indicator status-live"></span>🚀 SISTEM BOOKING SARANA v3</h3>
+                <p><strong>Fitur Lengkap 4-Tier Approval System:</strong></p>
+                <ul class="feature-list">
+                    <li>Digital signature & triple approval system</li>
+                    <li>WhatsApp auto-notification & reminder</li>
+                    <li>Friday restriction & conflict detection</li>
+                    <li>Equipment management & tracking</li>
+                    <li>Real-time availability calendar</li>
+                </ul>
+                <a href="login.html?system=booking" class="btn btn-primary">🎯 Masuk Sistem Booking</a>
+            </div>
+
+            <!-- SYSTEM 2: LAPORAN K3 (ENHANCED) -->
+            <div class="system-card">
+                <h3><span class="status-indicator status-live"></span>🚨 SISTEM LAPORAN K3</h3>
+                <p><strong>Laporan Kerusakan, Kehilangan, Kejadian:</strong></p>
+                <ul class="feature-list">
+                    <li>Before-after photo documentation</li>
+                    <li>Priority-based escalation system</li>
+                    <li>Real-time tracking status perbaikan</li>
+                    <li>Inventory integration & QR code tracking</li>
+                    <li>Automated reporting & analytics</li>
+                </ul>
+                <a href="login.html?system=k3" class="btn btn-secondary">📋 Buat Laporan K3</a>
+            </div>
+
+            <!-- SYSTEM 3: INVENTORY (ENHANCED) -->
+            <div class="system-card">
+                <h3><span class="status-indicator status-dev"></span>📦 SISTEM INVENTORY</h3>
+                <p><strong>Manajemen Aset & Pemesanan Barang:</strong></p>
+                <ul class="feature-list">
+                    <li>Digital asset tracking dengan QR Code</li>
+                    <li>Purchase request & approval workflow</li>
+                    <li>Maintenance schedule & history</li>
+                    <li>Budget planning & cost tracking</li>
+                    <li>Vendor management & performance</li>
+                </ul>
+                <a href="login.html?system=inventory" class="btn btn-secondary">🛒 Kelola Inventory</a>
+            </div>
+        </div>
+
+        <!-- QUICK ACCESS ENHANCED -->
+        <div class="quick-access">
+            <h3>⚡ Quick Access Panel</h3>
+            <div class="quick-access-grid">
+                <a href="login.html" class="btn btn-primary">🔐 Login System</a>
+                <a href="approval-panel.html" class="btn btn-secondary">📋 Approval Panel</a>
+                <a href="admin-dashboard.html" class="btn btn-secondary">👨‍💼 Admin Panel</a>
+                <a href="calendar-view.html" class="btn btn-secondary">📅 Calendar View</a>
+                <a href="reports.html" class="btn btn-secondary">📊 Reports</a>
+                <button onclick="clearSession()" class="btn btn-danger">🚪 Logout</button>
+            </div>
+        </div>
+
+        <!-- FOOTER -->
+        <div class="footer">
+            <p>© 2025 Sekolah Islam Fitrah Al Fikri | Bagian Umum & Digital Transformation</p>
+            <div class="dream-team">
+                𝓣𝓮𝓬𝓱𝓷𝓸𝓵𝓸𝓰𝔂 𝔀𝓲𝓽𝓱 𝓗𝓮𝓪𝓻𝓽, 𝓒𝓸𝓭𝓮 𝔀𝓲𝓽𝓱 𝓢𝓸𝓾𝓵 💙
+            </div>
+            <p><small>Visi: Menciptakan solusi digital yang melayani umat dengan barakah</small></p>
+            <p><small id="systemStatus">🟢 Sistem Online - Version 3.0 Barakah Edition</small></p>
+        </div>
+    </div>
+
+    <script>
+        // ENHANCED SYSTEM MANAGEMENT
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        // Update UI based on user session
+        function updateUserInterface() {
+            const userGreeting = document.getElementById('userGreeting');
+            
+            if (currentUser) {
+                userGreeting.innerHTML = `
+                    <strong>👤 User:</strong> ${currentUser.username} | 
+                    <strong>🎭 Peran:</strong> ${getRoleName(currentUser.role)} | 
+                    <strong>🕒 Login:</strong> ${new Date(currentUser.loggedInAt).toLocaleString('id-ID')}
+                    <br><small style="color: #27ae60;">✅ Session aktif - Sistem siap digunakan</small>
+                `;
+                
+                // Show admin features if applicable
+                if (currentUser.role === 'admin' || currentUser.role === 'kabid') {
+                    document.querySelector('.quick-access-grid').innerHTML += `
+                        <a href="analytics.html" class="btn btn-secondary">📈 Analytics</a>
+                    `;
+                }
+            } else {
+                userGreeting.innerHTML = '🔒 Silakan login untuk mengakses sistem lengkap | <small>Gunakan menu Login System di bawah</small>';
+            }
+        }
+
+        // LIVE STATISTICS
+        function updateLiveStats() {
+            const bookings = JSON.parse(localStorage.getItem('bookings')) || [];
+            const reports = JSON.parse(localStorage.getItem('reports')) || [];
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            
+            const activeBookings = bookings.filter(b => b.status === 'approved').length;
+            const pendingApprovals = bookings.filter(b => b.status === 'pending').length;
+            const totalUsers = users.length;
+            
+            document.getElementById('activeBookings').textContent = activeBookings;
+            document.getElementById('pendingApprovals').textContent = pendingApprovals;
+            document.getElementById('totalUsers').textContent = totalUsers || '5+';
+        }
+
+        // SYSTEM STATUS MONITORING
+        function checkSystemStatus() {
+            const systemStatus = document.getElementById('systemStatus');
+            const now = new Date();
+            const hours = now.getHours();
+            
+            if (hours >= 8 && hours <= 17) {
+                systemStatus.innerHTML = '🟢 Sistem Online - Version 3.0 Barakah Edition';
+                systemStatus.style.color = '#27ae60';
+            } else {
+                systemStatus.innerHTML = '🌙 Sistem Online (Off-peak) - Version 3.0 Barakah Edition';
+                systemStatus.style.color = '#f39c12';
+            }
+        }
+
+        // ENHANCED ROLE MANAGEMENT
+        function getRoleName(role) {
+            const roleNames = {
+                'pemohon': 'Pemohon', 
+                'kepsek-sd': 'Kepala Sekolah SD', 
+                'kepsek-smp': 'Kepala Sekolah SMP', 
+                'kepsek-sma': 'Kepala Sekolah SMA',
+                'koordinator': 'Koordinator Umum (Erwinsyah)', 
+                'kabid': 'Kabid Umum (Hanung Budianto, S.E.)',
+                'admin': 'Administrator System'
+            };
+            return roleNames[role] || role;
+        }
+
+        // SESSION MANAGEMENT
+        function clearSession() {
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('bookingData');
+            localStorage.removeItem('reportData');
+            alert('✅ Logout berhasil! Session telah dibersihkan.');
+            window.location.reload();
+        }
+
+        // AUTO SESSION CHECK
+        function checkSessionAge() {
+            if (currentUser && currentUser.loggedInAt) {
+                const loginTime = new Date(currentUser.loggedInAt);
+                const now = new Date();
+                const hoursDiff = (now - loginTime) / (1000 * 60 * 60);
+                
+                if (hoursDiff > 24) {
+                    clearSession();
+                    alert('🕒 Session expired. Silakan login kembali.');
+                }
+            }
+        }
+
+        // INITIALIZE SYSTEM
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUserInterface();
+            updateLiveStats();
+            checkSystemStatus();
+            checkSessionAge();
+            
+            // Auto-refresh stats every 30 seconds
+            setInterval(updateLiveStats, 30000);
+            
+            console.log('🕌 SIF Al Fikri System - Status: LIVE');
+            console.log('🌟 Special Thanks: الله • Nabi Muhammad SAW • The Dream Team');
+            console.log('🚀 Version: 3.0 - Barakah Edition (Enhanced)');
+            console.log('📧 Support: bagianumum@alfikri.sch.id');
+        });
+    </script>
+</body>
+</html>
