@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan K3 - SIF Al Fikri</title>
+    <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f6a8.svg">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background: linear-gradient(135deg, #3498db 0%, #2c3e50 100%); min-height: 100vh; padding: 20px; }
+        .container { max-width: 800px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+        .header { text-align: center; margin-bottom: 25px; }
+        .header h1 { color: #2c3e50; font-size: 2em; }
+        .form-group { margin: 20px 0; }
+        label { display: block; margin-bottom: 8px; font-weight: 600; color: #2c3e50; }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e0e0e0; border-radius: 8px; }
+        canvas { width: 100%; height: 150px; border: 2px solid #3498db; background: white; border-radius: 8px; }
+        .btn { padding: 12px 25px; background: linear-gradient(135deg, #e74c3c, #c0392b); color: white; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .k3-section { display: none; padding: 15px; background: #f8f9fa; border-radius: 10px; margin-top: 10px; }
+        .photo-preview { margin-top: 10px; text-align: center; }
+        .photo-preview img { max-width: 100%; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .compliance-note { background: #e8f4fd; padding: 12px; border-radius: 8px; margin-top: 20px; font-size: 0.9em; color: #2980b9; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🚨 Form Laporan K3</h1>
+            <p>SIF Al Fikri - Kerusakan, Kehilangan, Kejadian</p>
+        </div>
+
+        <form id="k3Form">
+            <!-- IDENTITAS PEMOHON -->
+            <div class="form-group">
+                <label>👤 Nama Lengkap Pemohon</label>
+                <input type="text" id="nama_pemohon" required placeholder="Nama lengkap">
+            </div>
+            <div class="form-group">
+                <label>📱 No. HP Pemohon</label>
+                <input type="tel" id="wa_pemohon" required placeholder="081234567890">
+            </div>
+            <div class="form-group">
+                <label>🏢 Unit/Divisi Pemohon</label>
+                <select id="unit_pemohon" required>
+                    <option value="">-- Pilih Unit --</option>
+                    <option value="sd">SD</option>
+                    <option value="smp">SMP</option>
+                    <option value="sma">SMA</option>
+                    <option value="umum">Bagian Umum</option>
+                </select>
+            </div>
+
+            <!-- JENIS LAPORAN -->
+            <div class="form-group">
+                <label>🔍 Jenis Laporan (Pilih Salah Satu)</label>
+                <select id="jenis_laporan" required onchange="toggleK3Fields()">
+                    <option value="">-- Pilih --</option>
+                    <option value="kerusakan">🛠️ Kerusakan</option>
+                    <option value="kehilangan">🔐 Kehilangan</option>
+                    <option value="kejadian">🚨 Kejadian (Bencana/Insiden)</option>
+                </select>
+            </div>
+
+            <!-- FIELD KHUSUS -->
+            <div id="kehilangan-fields" class="k3-section">
+                <div class="form-group">
+                    <label>📅 Perkiraan Waktu Hilang</label>
+                    <input type="datetime-local" id="waktu_hilang">
+                </div>
+                <div class="form-group">
+                    <label>📍 Lokasi Terakhir Diketahui</label>
+                    <input type="text" id="lokasi_hilang" placeholder="Ruang Lab, dekat jendela">
+                </div>
+            </div>
+
+            <div id="kerusakan-fields" class="k3-section">
+                <div class="form-group">
+                    <label>🔧 Jenis Kerusakan</label>
+                    <select id="jenis_kerusakan">
+                        <option value="listrik">Listrik</option>
+                        <option value="air">Air/Plumbing</option>
+                        <option value="bangunan">Bangunan/Sipil</option>
+                        <option value="elektronik">Elektronik</option>
+                        <option value="lainnya">Lainnya</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- LOKASI & ASET -->
+            <div class="form-group">
+                <label>📍 Lokasi Kejadian</label>
+                <select id="lokasi_kejadian" required>
+                    <option value="">-- Pilih Gedung/Lokasi --</option>
+                    <option value="gedung-sd">Gedung SD</option>
+                    <option value="gedung-smp">Gedung SMP</option>
+                    <option value="gedung-sma">Gedung SMA</option>
+                    <option value="aula">Aula</option>
+                    <option value="lapangan">Lapangan</option>
+                    <option value="kantin">Kantin</option>
+                    <option value="lainnya">Lainnya</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>📦 Nama Barang / Aset</label>
+                <input type="text" id="nama_aset" required placeholder="Proyektor, Meja, Kran Air">
+            </div>
+            <div class="form-group">
+                <label>🆔 ID Aset (Format: LOK-KAT-TIPE-NO)</label>
+                <input type="text" id="id_aset" placeholder="Contoh: SMP-ELEK-PROY-003">
+            </div>
+            <div class="form-group">
+                <label>💰 Nilai Aset (Opsional, untuk keperluan RAB)</label>
+                <input type="number" id="nilai_aset" placeholder="8500000">
+            </div>
+            <div class="form-group">
+                <label>📝 Deskripsi Kronologi</label>
+                <textarea id="deskripsi" rows="4" required placeholder="Jelaskan kejadian secara lengkap..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>📸 Foto Bukti (Ambil dari Kamera HP)</label>
+                <input type="file" id="foto_bukti" accept="image/*" capture="environment">
+                <div id="preview-foto" class="photo-preview"></div>
+            </div>
+
+            <!-- TANDA TANGAN -->
+            <div class="form-group">
+                <label>✍️ Tanda Tangan Digital Pemohon</label>
+                <canvas id="signature-k3"></canvas>
+            </div>
+
+            <!-- COMPLIANCE NOTE -->
+            <div class="compliance-note">
+                ℹ️ Laporan ini akan menjadi dokumen elektronik sah sesuai UU ITE dan digunakan untuk keperluan audit, perbaikan, serta rencana anggaran belanja (RAB) sekolah.
+            </div>
+
+            <button type="submit" class="btn">📤 Kirim Laporan ke Om Erwin</button>
+        </form>
+    </div>
+
+    <script>
+        // TOGGLE FIELD KHUSUS
+        function toggleK3Fields() {
+            const jenis = document.getElementById('jenis_laporan').value;
+            document.getElementById('kehilangan-fields').style.display = jenis === 'kehilangan' ? 'block' : 'none';
+            document.getElementById('kerusakan-fields').style.display = jenis === 'kerusakan' ? 'block' : 'none';
+        }
+
+        // PREVIEW FOTO
+        document.getElementById('foto_bukti').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(ev) {
+                    document.getElementById('preview-foto').innerHTML = 
+                        `<img src="${ev.target.result}" alt="Preview">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // SIGNATURE
+        const canvas = document.getElementById('signature-k3');
+        canvas.width = canvas.clientWidth;
+        canvas.height = 150;
+        const ctx = canvas.getContext('2d');
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        let isDrawing = false;
+
+        canvas.addEventListener('mousedown', startDraw);
+        canvas.addEventListener('mousemove', draw);
+        canvas.addEventListener('mouseup', stopDraw);
+        canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+        canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+        canvas.addEventListener('touchend', stopDraw);
+
+        function handleTouchStart(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousedown', { clientX: touch.clientX, clientY: touch.clientY });
+            canvas.dispatchEvent(mouseEvent);
+        }
+        function handleTouchMove(e) {
+            e.preventDefault();
+            const touch = e.touches[0];
+            const mouseEvent = new MouseEvent('mousemove', { clientX: touch.clientX, clientY: touch.clientY });
+            canvas.dispatchEvent(mouseEvent);
+        }
+        function startDraw(e) {
+            const rect = canvas.getBoundingClientRect();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+            isDrawing = true;
+        }
+        function draw(e) {
+            if (!isDrawing) return;
+            const rect = canvas.getBoundingClientRect();
+            ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+            ctx.stroke();
+        }
+        function stopDraw() { isDrawing = false; }
+
+        // SUBMIT
+        document.getElementById('k3Form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Validasi signature
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+            const isSigned = imgData.some(px => px !== 255);
+            if (!isSigned) {
+                alert('⚠️ Tanda tangan digital wajib diisi!');
+                return;
+            }
+
+            const report = {
+                id: 'K3-' + new Date().toISOString().slice(0,10).replace(/-/g,'') + '-' + Math.random().toString(36).substr(2, 5).toUpperCase(),
+                jenis: document.getElementById('jenis_laporan').value,
+                pemohon: document.getElementById('nama_pemohon').value,
+                wa_pemohon: document.getElementById('wa_pemohon').value,
+                unit: document.getElementById('unit_pemohon').value,
+                lokasi: document.getElementById('lokasi_kejadian').value,
+                nama_aset: document.getElementById('nama_aset').value,
+                id_aset: document.getElementById('id_aset').value,
+                nilai_aset: document.getElementById('nilai_aset').value || null,
+                deskripsi: document.getElementById('deskripsi').value,
+                foto: document.getElementById('preview-foto').querySelector('img')?.src || null,
+                signature: canvas.toDataURL(),
+                status: 'menunggu-koordinasi',
+                ditujukan_ke: 'Om Erwin (Koordinator Umum)',
+                createdAt: new Date().toISOString()
+            };
+
+            // Simpan ke localStorage
+            let reports = JSON.parse(localStorage.getItem('k3_reports')) || [];
+            reports.push(report);
+            localStorage.setItem('k3_reports', JSON.stringify(reports));
+
+            // Kirim WA ke Om Erwin
+            const phone = '628886183954';
+            const msg = `🚨 *LAPORAN K3 BARU*\n\n` +
+                        `• Jenis: ${report.jenis === 'kerusakan' ? 'Kerusakan' : report.jenis === 'kehilangan' ? 'Kehilangan' : 'Kejadian'}\n` +
+                        `• Pemohon: ${report.pemohon} (${report.unit})\n` +
+                        `• Lokasi: ${report.lokasi}\n` +
+                        `• Aset: ${report.nama_aset}\n\n` +
+                        `Silakan cek detail di sistem. Terima kasih, Om!`;
+
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+
+            alert('✅ Laporan K3 berhasil dikirim ke Om Erwin!\nData tersimpan sebagai dokumen audit.');
+            window.location.href = 'index.html';
+        });
+
+        // RESIZE CANVAS
+        window.addEventListener('resize', () => {
+            canvas.width = canvas.clientWidth;
+            canvas.height = 155;
+        });
+    </script>
+</body>
+</html>
