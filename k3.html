@@ -1,0 +1,1067 @@
+
+
+```html
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan K3 SIF AL-Fikri</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css ">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --danger: #dc2626;
+            --success: #16a34a;
+            --warning: #f59e0b;
+            --dark: #1f2937;
+            --light: #f9fafb;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: var(--dark);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        /* HEADER */
+        .header {
+            background: linear-gradient(90deg, var(--primary) 0%, #1d4ed8 100%);
+            color: white;
+            padding: 25px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 32px;
+            background: white;
+            color: var(--primary);
+            padding: 10px;
+            border-radius: 12px;
+        }
+        
+        .logo h1 {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: rgba(255,255,255,0.15);
+            padding: 10px 20px;
+            border-radius: 50px;
+        }
+        
+        .user-role {
+            background: var(--success);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        /* MAIN LAYOUT */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 0;
+            min-height: 800px;
+        }
+        
+        /* FORM SECTION */
+        .form-section {
+            background: var(--light);
+            padding: 30px;
+            border-right: 2px solid #e5e7eb;
+        }
+        
+        .form-section h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #d1d5db;
+            border-radius: 10px;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+        
+        .btn {
+            padding: 14px 25px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            width: 100%;
+        }
+        
+        .btn-primary:hover {
+            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+        
+        /* REPORTS SECTION */
+        .reports-section {
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            border: 2px solid #d1d5db;
+            background: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+        
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+        
+        .search-box {
+            position: relative;
+            min-width: 250px;
+        }
+        
+        .search-box i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6b7280;
+        }
+        
+        .search-box input {
+            padding-left: 45px;
+        }
+        
+        /* REPORTS TABLE */
+        .reports-container {
+            flex: 1;
+            overflow: auto;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .reports-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+        
+        .reports-table th {
+            background: var(--light);
+            padding: 18px 15px;
+            text-align: left;
+            font-weight: 700;
+            color: var(--dark);
+            border-bottom: 2px solid #d1d5db;
+            position: sticky;
+            top: 0;
+        }
+        
+        .reports-table td {
+            padding: 18px 15px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+        
+        .reports-table tr:hover {
+            background: #f8fafc;
+        }
+        
+        /* STATUS BADGES */
+        .status-badge {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            text-align: center;
+            min-width: 100px;
+        }
+        
+        .status-waiting { background: #fef3c7; color: #92400e; }
+        .status-process { background: #dbeafe; color: #1e40af; }
+        .status-done { background: #dcfce7; color: #166534; }
+        .status-rejected { background: #fee2e2; color: #991b1b; }
+        
+        /* ACTION BUTTONS */
+        .action-btns {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .btn-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-edit { background: #dbeafe; color: #1d4ed8; }
+        .btn-delete { background: #fee2e2; color: #dc2626; }
+        .btn-save { background: #dcfce7; color: #16a34a; }
+        
+        .btn-icon:hover {
+            transform: scale(1.1);
+        }
+        
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        
+        /* RESPONSIVE */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .form-section {
+                border-right: none;
+                border-bottom: 2px solid #e5e7eb;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                gap: 20px;
+                text-align: center;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- HEADER -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-shield-alt"></i>
+                <h1>K3 System - All-in-One</h1>
+            </div>
+            <div class="user-info">
+                <span id="currentUser">Pak Erwin (Koordinator)</span>
+                <span class="user-role" id="currentRole">Koordinator</span>
+                <button class="btn-icon" onclick="showRoleModal()" title="Ganti Role">
+                    <i class="fas fa-user-cog"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- MAIN CONTENT -->
+        <div class="main-content">
+            <!-- FORM INPUT -->
+            <div class="form-section">
+                <h2><i class="fas fa-plus-circle"></i> Form Laporan K3 Baru</h2>
+                
+                <form id="k3Form">
+                    <div class="form-group">
+                        <label for="namaPelapor"><i class="fas fa-user"></i> Nama Pelapor</label>
+                        <input type="text" id="namaPelapor" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="lokasi"><i class="fas fa-map-marker-alt"></i> Lokasi</label>
+                        <select id="lokasi" required>
+                            <option value="">Pilih Lokasi</option>
+                            <option value="Gedung SD">Gedung SD</option>
+                            <option value="Gedung SMP">Gedung SMP</option>
+                            <option value="Gedung SMA">Gedung SMA</option>
+                            <option value="Aula">Aula</option>
+                            <option value="Lapangan">Lapangan</option>
+                            <option value="Kantin">Kantin</option>
+                            <option value="Perpustakaan">Perpustakaan</option>
+                            
+                           
+                            
+                            
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="kategori"><i class="fas fa-tag"></i> Kategori Masalah</label>
+                        <select id="kategori" required>
+                            <option value="">Pilih Kategori</option>
+                            <option value="Kerusakan">Kerusakan</option>
+                            <option value="Kehilangan">Kehilangan</option>
+                            <option value="Kejadian">Kejadian</option>
+                            <option value="Lainnya">Lainnya</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="deskripsi"><i class="fas fa-file-alt"></i> Deskripsi Masalah</label>
+                        <textarea id="deskripsi" required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="prioritas"><i class="fas fa-exclamation-triangle"></i> Prioritas</label>
+                        <select id="prioritas" required>
+                            <option value="Rendah">Rendah</option>
+                            <option value="Sedang" selected>Sedang</option>
+                            <option value="Tinggi">Tinggi</option>
+                            <option value="Darurat">Darurat</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Kirim Laporan
+                    </button>
+                </form>
+                
+                <!-- DATA MANAGEMENT -->
+                <div style="margin-top: 40px; padding-top: 20px; border-top: 2px solid #e5e7eb;">
+                    <h3><i class="fas fa-database"></i> Kelola Data</h3>
+                    <div style="display: flex; gap: 10px; margin-top: 15px;">
+                        <button class="btn" onclick="exportToCSV()" style="background: #10b981; color: white;">
+                            <i class="fas fa-file-export"></i> Export CSV
+                        </button>
+                        <button class="btn" onclick="showBackupModal()" style="background: #8b5cf6; color: white;">
+                            <i class="fas fa-cloud-upload-alt"></i> Backup Data
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- DAFTAR LAPORAN -->
+            <div class="reports-section">
+                <div class="section-header">
+                    <h2 style="color: var(--primary);">
+                        <i class="fas fa-list-check"></i> Daftar Laporan
+                        <span id="reportCount" style="font-size: 16px; color: #6b7280; margin-left: 10px;"></span>
+                    </h2>
+                    
+                    <div class="filters">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="searchInput" placeholder="Cari laporan...">
+                        </div>
+                        <button class="filter-btn active" onclick="filterReports('all')">Semua</button>
+                        <button class="filter-btn" onclick="filterReports('waiting')">Menunggu</button>
+                        <button class="filter-btn" onclick="filterReports('process')">Diproses</button>
+                        <button class="filter-btn" onclick="filterReports('done')">Selesai</button>
+                    </div>
+                </div>
+                
+                <div class="reports-container">
+                    <table class="reports-table">
+                        <thead>
+                            <tr>
+                                <th width="5%">No</th>
+                                <th width="15%">Tanggal</th>
+                                <th width="15%">Pelapor</th>
+                                <th width="15%">Lokasi</th>
+                                <th width="15%">Status</th>
+                                <th width="15%">Prioritas</th>
+                                <th width="20%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="reportsTableBody">
+                            <!-- Data akan diisi oleh JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- MODAL GANTI ROLE -->
+    <div class="modal" id="roleModal">
+        <div class="modal-content">
+            <h2 style="margin-bottom: 20px;"><i class="fas fa-user-tag"></i> Pilih Role</h2>
+            <div style="display: flex; flex-direction: column; gap: 15px;">
+                <button class="btn" onclick="setRole('user')" style="background: #6b7280; color: white;">
+                    <i class="fas fa-user"></i> User Biasa
+                </button>
+                <button class="btn" onclick="setRole('admin')" style="background: #8b5cf6; color: white;">
+                    <i class="fas fa-user-shield"></i> Admin
+                </button>
+                <button class="btn" onclick="setRole('koordinator')" style="background: var(--primary); color: white;">
+                    <i class="fas fa-user-tie"></i> Koordinator (Pak Erwin)
+                </button>
+            </div>
+            <button class="btn" onclick="closeModal('roleModal')" style="margin-top: 30px; width: 100%; background: #e5e7eb; color: var(--dark);">
+                Tutup
+            </button>
+        </div>
+    </div>
+    
+    <!-- MODAL DETAIL LAPORAN -->
+    <div class="modal" id="detailModal">
+        <div class="modal-content">
+            <div id="modalContent">
+                <!-- Detail laporan akan diisi di sini -->
+            </div>
+            <button class="btn" onclick="closeModal('detailModal')" style="margin-top: 20px; width: 100%;">
+                Tutup
+            </button>
+        </div>
+    </div>
+    
+    <!-- MODAL BACKUP/RESTORE -->
+    <div class="modal" id="backupModal">
+        <div class="modal-content">
+            <h2><i class="fas fa-database"></i> Backup & Restore Data</h2>
+            <div style="margin: 25px 0;">
+                <p>Data tersimpan: <strong id="dataCount">0</strong> laporan</p>
+                <div style="display: flex; gap: 10px; margin-top: 20px;">
+                    <button class="btn" onclick="downloadBackup()" style="background: #10b981; color: white; flex: 1;">
+                        <i class="fas fa-download"></i> Download Backup
+                    </button>
+                    <button class="btn" onclick="restoreBackup()" style="background: #f59e0b; color: white; flex: 1;">
+                        <i class="fas fa-upload"></i> Restore Backup
+                    </button>
+                </div>
+                <div style="margin-top: 20px;">
+                    <label for="backupFile"><i class="fas fa-file-import"></i> Pilih file backup (.json)</label>
+                    <input type="file" id="backupFile" accept=".json" style="margin-top: 10px;">
+                </div>
+            </div>
+            <button class="btn" onclick="closeModal('backupModal')" style="background: #e5e7eb; color: var(--dark); width: 100%;">
+                Tutup
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // GLOBAL VARIABLES
+        let currentRole = 'koordinator'; // Default role
+        let reports = [];
+        let currentFilter = 'all';
+
+        // INITIALIZE
+        document.addEventListener('DOMContentLoaded', function() {
+            loadReports();
+            updateUIByRole();
+            
+            // Form submission
+            document.getElementById('k3Form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                submitReport();
+            });
+            
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function() {
+                filterReports(currentFilter);
+            });
+        });
+
+        // LOAD REPORTS FROM LOCALSTORAGE
+        function loadReports() {
+            const saved = localStorage.getItem('k3_reports');
+            reports = saved ? JSON.parse(saved) : [];
+            
+            // Add sample data if empty
+            if (reports.length === 0 && currentRole === 'koordinator') {
+                reports = [
+                    {
+                        id: 1,
+                        nama: "Budi Santoso",
+                        lokasi: "Gudang A",
+                        kategori: "Kebersihan",
+                        deskripsi: "Tumpahan oli di lorong utama, berbahaya untuk jalur forklift",
+                        prioritas: "Tinggi",
+                        status: "waiting",
+                        tanggal: new Date().toISOString().split('T')[0],
+                        catatan: "",
+                        updatedBy: ""
+                    },
+                    {
+                        id: 2,
+                        nama: "Siti Nurhaliza",
+                        lokasi: "Area Produksi",
+                        kategori: "Kerusakan Peralatan",
+                        deskripsi: "Mesin press mengeluarkan suara tidak wajar",
+                        prioritas: "Darurat",
+                        status: "process",
+                        tanggal: new Date(Date.now() - 86400000).toISOString().split('T')[0],
+                        catatan: "Sudah dilaporkan ke teknisi, menunggu spare part",
+                        updatedBy: "Pak Erwin"
+                    },
+                    {
+                        id: 3,
+                        nama: "Ahmad Dhani",
+                        lokasi: "Parkiran",
+                        kategori: "Keamanan",
+                        deskripsi: "Lampu penerangan mati 3 titik",
+                        prioritas: "Sedang",
+                        status: "done",
+                        tanggal: new Date(Date.now() - 172800000).toISOString().split('T')[0],
+                        catatan: "Lampu sudah diganti semua",
+                        updatedBy: "Admin"
+                    }
+                ];
+                saveReports();
+            }
+            
+            displayReports();
+        }
+
+        // SAVE REPORTS TO LOCALSTORAGE
+        function saveReports() {
+            localStorage.setItem('k3_reports', JSON.stringify(reports));
+            displayReports();
+        }
+
+        // SUBMIT NEW REPORT
+        function submitReport() {
+            const form = document.getElementById('k3Form');
+            
+            const newReport = {
+                id: reports.length > 0 ? Math.max(...reports.map(r => r.id)) + 1 : 1,
+                nama: document.getElementById('namaPelapor').value,
+                lokasi: document.getElementById('lokasi').value,
+                kategori: document.getElementById('kategori').value,
+                deskripsi: document.getElementById('deskripsi').value,
+                prioritas: document.getElementById('prioritas').value,
+                status: "waiting",
+                tanggal: new Date().toISOString().split('T')[0],
+                catatan: "",
+                updatedBy: ""
+            };
+            
+            reports.unshift(newReport);
+            saveReports();
+            
+            // Reset form
+            form.reset();
+            
+            // Show notification
+            alert('✅ Laporan berhasil dikirim!');
+            
+            // Send WhatsApp notification (simulated)
+            sendWhatsAppNotification(newReport);
+        }
+
+        // DISPLAY REPORTS IN TABLE
+        function displayReports() {
+            const tbody = document.getElementById('reportsTableBody');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            
+            // Filter reports
+            let filteredReports = reports.filter(report => {
+                const matchesSearch = 
+                    report.nama.toLowerCase().includes(searchTerm) ||
+                    report.lokasi.toLowerCase().includes(searchTerm) ||
+                    report.deskripsi.toLowerCase().includes(searchTerm) ||
+                    report.kategori.toLowerCase().includes(searchTerm);
+                
+                const matchesFilter = 
+                    currentFilter === 'all' ||
+                    (currentFilter === 'waiting' && report.status === 'waiting') ||
+                    (currentFilter === 'process' && report.status === 'process') ||
+                    (currentFilter === 'done' && report.status === 'done');
+                
+                return matchesSearch && matchesFilter;
+            });
+            
+            // Update count
+            document.getElementById('reportCount').textContent = 
+                `(${filteredReports.length} dari ${reports.length} laporan)`;
+            document.getElementById('dataCount').textContent = reports.length;
+            
+            // Generate table rows
+            tbody.innerHTML = '';
+            
+            if (filteredReports.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align: center; padding: 50px; color: #6b7280;">
+                            <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 20px; display: block;"></i>
+                            Tidak ada laporan yang ditemukan
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            filteredReports.forEach((report, index) => {
+                const row = document.createElement('tr');
+                
+                // Status badge
+                let statusText = '';
+                let statusClass = '';
+                switch(report.status) {
+                    case 'waiting': statusText = '🟡 Menunggu'; statusClass = 'status-waiting'; break;
+                    case 'process': statusText = '🔵 Diproses'; statusClass = 'status-process'; break;
+                    case 'done': statusText = '🟢 Selesai'; statusClass = 'status-done'; break;
+                    case 'rejected': statusText = '🔴 Ditolak'; statusClass = 'status-rejected'; break;
+                }
+                
+                // Priority indicator
+                let priorityColor = '';
+                switch(report.prioritas) {
+                    case 'Rendah': priorityColor = '#10b981'; break;
+                    case 'Sedang': priorityColor = '#f59e0b'; break;
+                    case 'Tinggi': priorityColor = '#ef4444'; break;
+                    case 'Darurat': priorityColor = '#dc2626'; break;
+                }
+                
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${report.tanggal}</td>
+                    <td><strong>${report.nama}</strong></td>
+                    <td>${report.lokasi}</td>
+                    <td><span class="status-badge ${statusClass}">${statusText}</span></td>
+                    <td>
+                        <span style="color: ${priorityColor}; font-weight: 600;">
+                            <i class="fas fa-circle" style="font-size: 10px; margin-right: 5px;"></i>
+                            ${report.prioritas}
+                        </span>
+                    </td>
+                    <td>
+                        <div class="action-btns">
+                            <button class="btn-icon btn-edit" onclick="showDetailModal(${report.id})" title="Lihat Detail">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                            ${currentRole !== 'user' ? `
+                                <button class="btn-icon btn-edit" onclick="updateStatus(${report.id}, 'process')" title="Proses Laporan">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                                <button class="btn-icon btn-save" onclick="updateStatus(${report.id}, 'done')" title="Tandai Selesai">
+                                    <i class="fas fa-check"></i>
+                                </button>
+                            ` : ''}
+                            ${currentRole === 'admin' ? `
+                                <button class="btn-icon btn-delete" onclick="deleteReport(${report.id})" title="Hapus Laporan">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            ` : ''}
+                        </div>
+                    </td>
+                `;
+                
+                tbody.appendChild(row);
+            });
+        }
+
+        // FILTER REPORTS
+        function filterReports(filter) {
+            currentFilter = filter;
+            
+            // Update active filter button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            displayReports();
+        }
+
+        // UPDATE REPORT STATUS
+        function updateStatus(reportId, newStatus) {
+            const reportIndex = reports.findIndex(r => r.id === reportId);
+            if (reportIndex === -1) return;
+            
+            const report = reports[reportIndex];
+            
+            // Determine status text
+            let statusText = '';
+            switch(newStatus) {
+                case 'process': statusText = 'Diproses'; break;
+                case 'done': statusText = 'Selesai'; break;
+                case 'rejected': statusText = 'Ditolak'; break;
+            }
+            
+            // Ask for note if needed
+            let note = report.catatan;
+            if (newStatus !== 'waiting') {
+                note = prompt(`Tambahkan catatan untuk status "${statusText}":`, report.catatan || '');
+                if (note === null) return; // User cancelled
+            }
+            
+            // Update report
+            reports[reportIndex].status = newStatus;
+            reports[reportIndex].catatan = note || '';
+            reports[reportIndex].updatedBy = 
+                currentRole === 'koordinator' ? 'Pak Erwin' : 
+                currentRole === 'admin' ? 'Admin' : 'System';
+            
+            saveReports();
+            
+            // Send update notification
+            sendStatusUpdateNotification(report, newStatus);
+        }
+
+        // DELETE REPORT (Admin only)
+        function deleteReport(reportId) {
+            if (!confirm('Hapus laporan ini?')) return;
+            
+            reports = reports.filter(r => r.id !== reportId);
+            saveReports();
+        }
+
+        // SHOW DETAIL MODAL
+        function showDetailModal(reportId) {
+            const report = reports.find(r => r.id === reportId);
+            if (!report) return;
+            
+            let statusText = '';
+            switch(report.status) {
+                case 'waiting': statusText = '🟡 Menunggu'; break;
+                case 'process': statusText = '🔵 Diproses'; break;
+                case 'done': statusText = '🟢 Selesai'; break;
+                case 'rejected': statusText = '🔴 Ditolak'; break;
+            }
+            
+            document.getElementById('modalContent').innerHTML = `
+                <h2 style="margin-bottom: 20px; color: var(--primary);">
+                    <i class="fas fa-file-alt"></i> Detail Laporan
+                </h2>
+                
+                <div style="background: var(--light); padding: 20px; border-radius: 12px; margin-bottom: 20px;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <label style="color: #6b7280; font-size: 14px;">Pelapor</label>
+                            <p style="font-weight: 600; font-size: 18px;">${report.nama}</p>
+                        </div>
+                        <div>
+                            <label style="color: #6b7280; font-size: 14px;">Tanggal</label>
+                            <p style="font-weight: 600;">${report.tanggal}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <label style="color: #6b7280; font-size: 14px;">Lokasi</label>
+                            <p style="font-weight: 600;">${report.lokasi}</p>
+                        </div>
+                        <div>
+                            <label style="color: #6b7280; font-size: 14px;">Kategori</label>
+                            <p style="font-weight: 600;">${report.kategori}</p>
+                        </div>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div>
+                            <label style="color: #6b7280; font-size: 14px;">Prioritas</label>
+                            <p style="font-weight: 600; color: ${
+                                report.prioritas === 'Darurat' ? '#dc2626' : 
+                                report.prioritas === 'Tinggi' ? '#ef4444' :
+                                report.prioritas === 'Sedang' ? '#f59e0b' : '#10b981'
+                            };">${report.prioritas}</p>
+                        </div>
+                        <div>
+                            <label style="color: #6b7280; font-size: 14px;">Status</label>
+                            <p style="font-weight: 600;">${statusText}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <label style="color: #6b7280; font-size: 14px;">Deskripsi Masalah</label>
+                    <div style="background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 8px;">
+                        ${report.deskripsi}
+                    </div>
+                </div>
+                
+                ${report.catatan ? `
+                    <div style="margin-bottom: 20px;">
+                        <label style="color: #6b7280; font-size: 14px;">Catatan Koordinator</label>
+                        <div style="background: #f0f9ff; padding: 15px; border-radius: 8px; margin-top: 8px; border-left: 4px solid var(--primary);">
+                            <strong>${report.updatedBy}:</strong> ${report.catatan}
+                        </div>
+                    </div>
+                ` : ''}
+                
+                ${currentRole !== 'user' ? `
+                    <div style="display: flex; gap: 10px; margin-top: 30px;">
+                        ${report.status !== 'process' && report.status !== 'done' ? `
+                            <button class="btn" onclick="updateStatus(${report.id}, 'process'); closeModal('detailModal');" style="background: var(--primary); color: white; flex: 1;">
+                                <i class="fas fa-play"></i> Proses Laporan
+                            </button>
+                        ` : ''}
+                        ${report.status !== 'done' ? `
+                            <button class="btn" onclick="updateStatus(${report.id}, 'done'); closeModal('detailModal');" style="background: #10b981; color: white; flex: 1;">
+                                <i class="fas fa-check"></i> Tandai Selesai
+                            </button>
+                        ` : ''}
+                    </div>
+                ` : ''}
+            `;
+            
+            document.getElementById('detailModal').style.display = 'flex';
+        }
+
+        // ROLE MANAGEMENT
+        function showRoleModal() {
+            document.getElementById('roleModal').style.display = 'flex';
+        }
+
+        function setRole(role) {
+            currentRole = role;
+            
+            // Update UI
+            let roleName = '';
+            let userName = '';
+            
+            switch(role) {
+                case 'user':
+                    roleName = 'User Biasa';
+                    userName = 'User';
+                    break;
+                case 'admin':
+                    roleName = 'Admin';
+                    userName = 'Admin';
+                    break;
+                case 'koordinator':
+                    roleName = 'Koordinator';
+                    userName = 'Pak Erwin';
+                    break;
+            }
+            
+            document.getElementById('currentUser').textContent = userName;
+            document.getElementById('currentRole').textContent = roleName;
+            
+            updateUIByRole();
+            closeModal('roleModal');
+        }
+
+        function updateUIByRole() {
+            // Update form visibility for user role
+            const formSection = document.querySelector('.form-section');
+            if (currentRole === 'koordinator') {
+                formSection.style.opacity = '1';
+                formSection.style.pointerEvents = 'all';
+            } else {
+                formSection.style.opacity = '1';
+                formSection.style.pointerEvents = 'all';
+            }
+            
+            // Refresh table
+            displayReports();
+        }
+
+        // MODAL CONTROLS
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // EXPORT TO CSV
+        function exportToCSV() {
+            const headers = ['ID', 'Tanggal', 'Pelapor', 'Lokasi', 'Kategori', 'Deskripsi', 'Prioritas', 'Status', 'Catatan', 'Diupdate Oleh'];
+            
+            const csvData = [
+                headers.join(','),
+                ...reports.map(report => [
+                    report.id,
+                    `"${report.tanggal}"`,
+                    `"${report.nama}"`,
+                    `"${report.lokasi}"`,
+                    `"${report.kategori}"`,
+                    `"${report.deskripsi.replace(/"/g, '""')}"`,
+                    `"${report.prioritas}"`,
+                    `"${report.status}"`,
+                    `"${report.catatan.replace(/"/g, '""')}"`,
+                    `"${report.updatedBy}"`
+                ].join(','))
+            ].join('\n');
+            
+            const blob = new Blob(['\uFEFF' + csvData], { type: 'text/csv;charset=utf-8;' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `k3-reports-${new Date().toISOString().split('T')[0]}.csv`;
+            link.click();
+        }
+
+        // BACKUP & RESTORE
+        function showBackupModal() {
+            document.getElementById('backupModal').style.display = 'flex';
+        }
+
+        function downloadBackup() {
+            const dataStr = JSON.stringify(reports, null, 2);
+            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
+            const link = document.createElement('a');
+            link.href = dataUri;
+            link.download = `k3-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+        }
+
+        function restoreBackup() {
+            const fileInput = document.getElementById('backupFile');
+            if (!fileInput.files.length) {
+                alert('Pilih file backup dulu!');
+                return;
+            }
+            
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const backupData = JSON.parse(e.target.result);
+                    if (confirm(`Restore ${backupData.length} laporan? Data saat ini akan diganti.`)) {
+                        reports = backupData;
+                        saveReports();
+                        alert('✅ Data berhasil di-restore!');
+                        closeModal('backupModal');
+                    }
+                } catch (error) {
+                    alert('Error: File backup tidak valid!');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // WHATSAPP NOTIFICATION SIMULATION
+        function sendWhatsAppNotification(report) {
+            const message = `📋 *LAPORAN K3 BARU*\n\n` +
+                          `Pelapor: ${report.nama}\n` +
+                          `Lokasi: ${report.lokasi}\n` +
+                          `Kategori: ${report.kategori}\n` +
+                          `Prioritas: ${report.prioritas}\n\n` +
+                          `Silakan cek di sistem K3 untuk detail lengkap.`;
+            
+            console.log('📱 WhatsApp Notification (simulated):');
+            console.log(message);
+            
+            // In real implementation, you would use WhatsApp API
+            // For now, we'll just log it
+        }
+
+        function sendStatusUpdateNotification(report, newStatus) {
+            const statusText = newStatus === 'process' ? 'Diproses' : 
+                             newStatus === 'done' ? 'Selesai' : 'Diupdate';
+            
+            const message = `🔄 *UPDATE STATUS LAPORAN K3*\n\n` +
+                          `ID: ${report.id}\n` +
+                          `Pelapor: ${report.nama}\n` +
+                          `Status: ${statusText}\n` +
+                          `Diupdate oleh: ${currentRole === 'koordinator' ? 'Pak Erwin' : 'Admin'}\n\n` +
+                          `Terima kasih.`;
+            
+            console.log('📱 WhatsApp Update Notification (simulated):');
+            console.log(message);
+        }
+    </script>
+</body>
+</html>
+```
+
+---
+
+## 
