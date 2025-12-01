@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistem Terpadu - SIF Al Fikri</title>
+    <title>Booking - SIF Al Fikri</title>
     <link rel="icon" href="https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/1f54c.svg">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -68,7 +68,7 @@
             </div>
 
             <!-- SARANA -->
-            <div class="formitantar_group">
+            <div class="form-group">
                 <label for="sarana">🏛️ Sarana yang Dipesan</label>
                 <select id="sarana" required>
                     <option value="">-- Pilih Sarana --</option>
@@ -92,7 +92,6 @@
     </div>
 
     <script>
-        // MASTER DATA SARANA
         const SYSTEM_CONFIG = {
             facilities: [
                 {id:"aula-smp",name:"🏛️ Aula SMP"},{id:"aula-sma",name:"🏛️ Aula SMA"},
@@ -109,7 +108,6 @@
             ]
         };
 
-        // RENDER SARANA
         function renderFacilities() {
             const select = document.getElementById('sarana');
             SYSTEM_CONFIG.facilities.forEach(f => {
@@ -120,7 +118,6 @@
             });
         }
 
-        // SIGNATURE
         let isDrawing = false;
         const canvas = document.getElementById('signature-pad');
         const ctx = canvas.getContext('2d');
@@ -173,18 +170,15 @@
         }
         function stopDraw() { isDrawing = false; }
 
-        // VALIDASI REAL-TIME
         function validateForm() {
             const fields = ['nama_pemohon', 'wa_pemohon', 'kegiatan', 'tanggal', 'waktu_mulai', 'waktu_selesai', 'sarana'];
             let valid = fields.every(id => document.getElementById(id).value.trim() !== '');
-            // Cek signature
             const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
             const isSigned = imgData.some(px => px !== 255);
             valid = valid && isSigned;
             document.getElementById('submitBtn').disabled = !valid;
         }
 
-        // CEK KONFLIK REAL-TIME
         function checkConflict() {
             const tgl = document.getElementById('tanggal').value;
             const mulai = document.getElementById('waktu_mulai').value;
@@ -209,7 +203,7 @@
             });
 
             if (conflict) {
-                const saranaName = getSaranaName(sarana);
+                const saranaName = SYSTEM_CONFIG.facilities.find(f => f.id === sarana)?.name || sarana;
                 alertDiv.innerHTML = `
                     ⚠️ Sarana ini sudah dipakai pada waktu tersebut.<br>
                     <button type="button" onclick="openWaToErwin()" style="margin-top:10px; padding:6px 12px; background:#27ae60; color:white; border:none; border-radius:4px; cursor:pointer;">
@@ -222,12 +216,6 @@
             }
         }
 
-        function getSaranaName(id) {
-            const f = SYSTEM_CONFIG.facilities.find(x => x.id === id);
-            return f ? f.name : id;
-        }
-
-        // WA KE OM ERWIN
         function openWaToErwin() {
             const phone = '628886183954';
             const pemohon = document.getElementById('nama_pemohon').value || 'Pemohon';
@@ -235,7 +223,7 @@
             const tgl = document.getElementById('tanggal').value;
             const mulai = document.getElementById('waktu_mulai').value;
             const selesai = document.getElementById('waktu_selesai').value;
-            const sarana = getSaranaName(document.getElementById('sarana').value);
+            const sarana = SYSTEM_CONFIG.facilities.find(f => f.id === document.getElementById('sarana').value)?.name || 'Sarana';
 
             const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             const formattedDate = tgl ? new Date(tgl).toLocaleDateString('id-ID', dateOptions) : 'Tanggal tidak diketahui';
@@ -254,7 +242,6 @@
             window.open(`https://wa.me/${phone}?text=${encodeURIComponent(message)}`, '_blank');
         }
 
-        // AUTO-DELETE SETELAH 30 HARI
         function cleanupOldData() {
             const now = new Date();
             const thirtyDaysAgo = new Date(now.setDate(now.getDate() - 30));
@@ -263,7 +250,6 @@
             localStorage.setItem('bookings', JSON.stringify(bookings));
         }
 
-        // SUBMIT
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             if (document.getElementById('submitBtn').disabled) return;
@@ -292,7 +278,6 @@
             window.location.reload();
         });
 
-        // EVENT LISTENERS
         document.querySelectorAll('input, select, textarea').forEach(el => {
             el.addEventListener('input', () => {
                 validateForm();
@@ -302,7 +287,6 @@
         canvas.addEventListener('mouseup', validateForm);
         canvas.addEventListener('touchend', validateForm);
 
-        // INIT
         document.addEventListener('DOMContentLoaded', () => {
             renderFacilities();
             cleanupOldData();
